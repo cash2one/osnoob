@@ -1,0 +1,15 @@
+<header class="bg-black-noob header header-md navbar navbar-fixed-top-xs">
+      <div class="navbar-header aside bg-info dk">
+        <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen,open" data-target="#nav,html">
+          <i class="icon-list"></i>
+        </a>
+        <a href="/" class="navbar-brand text-lt">
+          <img src="http://{{g.imghost}}/sys_default-logo.png" alt="logo">
+        </a>
+        <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
+          <i class="icon-user"></i>
+        </a>
+      </div>
+     {% include 'base/header_shared.html' %}
+    <script src="{{url_for('static', filename='js/noob-adm.js')}}?version={{g.version}}"></script>
+</header>

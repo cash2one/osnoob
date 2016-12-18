@@ -1,0 +1,139 @@
+<!-- .aside -->
+        <!-- aside class="bg-black aside hidden-print" id="nav" -->
+        <aside class="bg-black aside hidden-print nav-xs nav-sm" id="nav">
+          <section class="vbox">
+            <section class="w-f-md ">
+              <div class=" " >
+                <!-- nav -->
+                <nav class="nav-primary hidden-xs">
+                  <ul class="nav bg clearfix">
+                    <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
+                      菜鸟世界
+                    </li>
+                    <li>
+                      <a href="/">
+                        <i class="icon-home icon text-success"></i>
+                        <span class="font-bold">首页</span>
+                      </a>
+                    </li>
+
+                    <li class="m-b hidden-nav-xs"></li>
+                  </ul>
+
+                  <ul class="nav bg clearfix" data-ride="collapse">
+                     <li>
+                      <a href="{{url_for('post.posts_subject', subject='art')}}">
+                        <i class="icon-cup text-art"></i>
+                        <span class="font-bold">音悦文艺</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{url_for('post.posts_subject', subject='tech')}}">
+                        <i class="icon-direction text-tech"></i>
+                        <span class="font-bold">科技有趣</span>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a rel="nofollow" href="#" class="auto">
+                        <span class="pull-right text-muted">
+                          <i class="fa fa-angle-left text"></i>
+                          <i class="fa fa-angle-down text-active"></i>
+                        </span>
+                        <i class="icon-pencil icon text-pen"></i>
+                        <span class="font-bold">写点东西</span>
+                      </a>
+                      <ul class="nav dk text-sm">
+                        <li >
+                          <a rel="nofollow" href="{{url_for('post.post_add', subject='wide')}}">
+                            <i class="icon-note text-pen"></i>
+                            <span class="font-bold">随写</span>
+                          </a>
+                        </li>
+                        <li >
+                          <a rel="nofollow" href="{{url_for('post.post_add', subject='art')}}">
+                            <i class="icon-note text-art"></i>
+                            <span class="font-bold">音悦|文艺</span>
+                          </a>
+                        </li>
+                        <li >
+                          <a rel="nofollow" href="{{url_for('post.post_add', subject='tech')}}">
+                            <i class="icon-note text-tech"></i>
+                            <span class="font-bold">科技有趣</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    {% if g.tn == "m" %}
+                    <li class="hidden-md hidden-lg">
+                      <a rel="nofollow" href="{{url_for('online.on_search')}}">
+                        <i class="fa fa-search text-art"></i>
+                        <span class="font-bold">站内搜索</span>
+                      </a>
+                    </li>
+                    <li class="hidden-md hidden-lg">
+                      <a href="{{url_for('post.post_type',type='帮助')}}">
+                        <i class="fa fa-question-circle"></i>
+                        <span class="font-bold">帮助</span>
+                      </a>
+                    </li>
+                    {% endif %}
+                  </ul>
+
+                </nav>
+                <!-- / nav -->
+              </div>
+            </section>
+
+            <footer class="footer hidden-xs no-padder text-center-nav-xs">
+              <div class="bg hidden-xs ">
+                {% if current_user.is_authenticated() %}
+                 <nav class="nav-primary hidden-xs">
+                  <ul class="nav bg clearfix">
+                    <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
+                      用户
+                    </li>
+                    <li>
+                      <a rel="nofollow" href="{{url_for('people.index')}}">
+                        <i class="icon-user icon"></i>
+                        <span class="font-bold">我的主页</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a rel="nofollow" href="{{url_for('online.account')}}">
+                        <i class="icon-settings"></i>
+                        <span class="font-bold">设置</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{{url_for('post.post_type',type='帮助')}}">
+                        <i class="fa fa-question-circle"></i>
+                        <span class="font-bold">帮助</span>
+                      </a>
+                    </li>
+
+                    <li>
+                      <a href="{{url_for('online.logout')}}" >
+                        <i class="fa fa-sign-out"></i>
+                        <span class="font-bold">退出</span>
+                      </a>
+                    </li>
+
+                    <li class="m-b hidden-nav-xs"></li>
+                  </ul>
+                 </nav>
+                {% elif g.tn == "pc" %}
+                   <nav class="nav-primary hidden-xs">
+                    <ul class="nav bg clearfix">
+                      <li>
+                        <a href="{{url_for('online.login')}}" >
+                          <i class="fa fa-sign-in" style="color:#394939;"></i> <span class="font-bold">登录</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </nav>
+                {% endif %}
+                </div>
+            </footer>
+          </section>
+        </aside>

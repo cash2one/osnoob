@@ -240,6 +240,20 @@ class Permission():
     ADMINISTER =   0b01000000
     ROOT =         0b10000000
 
+# -----------------------------------------------------------------------------------------------
+class WebLogger(Config):
+    '''
+    web logger
+    '''
+
+    NORMAL_LEVEL = logging.INFO
+    EXCEP_LEVEL = logging.ERROR
+    FORMATTER = '%(asctime)s %(levelname)s %(message)s'
+
+class Verify():
+
+    VERIFY_FAILURE_TIME = 60*10
+
 # **********************************************************************************************************************
 config = {
     'testing':TestingConfig,
@@ -259,6 +273,8 @@ config = {
     'oauth_login':OAuthLogin,
     'version':Version,
     'permission':Permission,
+    "weblogger":WebLogger,
+    'verify':Verify,
 }
 
 

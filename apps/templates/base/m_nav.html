@@ -1,0 +1,39 @@
+{% if g.tn == "m" and view_data.home%}
+<script>
+    //post导航高亮移动端
+    $(function(){
+
+           $(".nav-tag li").eq(0).addClass("current");
+           $('.nav-tag li').each(function(){
+            $(this).click(function(){
+                $(this).addClass("current").siblings().removeClass("current");
+            });
+           })
+    })
+</script>
+<ul class="hidden-md hidden-lg tab nav-tag">
+    <li class="current">
+        <a href="/" style="cursor:pointer" >首页</a>
+    </li >
+    <li>
+         <a style="cursor:pointer" onclick="get_post('new')">最新</a>
+    </li>
+    <li>
+        <a style="cursor:pointer" onclick="get_post('hot')" >热门</a>
+    </li>
+    <li id="l4" onclick="nav_mb_active('l4')">
+        <a style="cursor:pointer" onclick="get_post('art')">音悦|文艺</a>
+    </li>
+    <li id="l4" onclick="nav_mb_active('l4')">
+        <a style="cursor:pointer" onclick="get_post('tech')">科技有趣</a>
+    </li>
+</ul>
+{% elif g.tn == "m"%}
+<ul class="hidden-md hidden-lg tab nav-tag">
+    <li>
+        <a href="/" style="cursor:pointer;color:#19B364" >
+            <i class="icon-home"></i>&nbsp;回到首页
+        </a>
+    </li >
+</ul>
+{% endif %}

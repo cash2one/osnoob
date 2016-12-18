@@ -16,6 +16,7 @@ from flask_bootstrap import Bootstrap
 from qiniu import Auth
 from flask_login import LoginManager, current_user
 #from apps.weblogger.access import logger
+from apps.shared_tools.request.my_request import MyRequest
 
 '''
  __author__ = 'woo'
@@ -83,7 +84,7 @@ qq = oauth.remote_app(
 # register blueprint----------------------------------------------------------
 from apps.blueprint import api, admin, online, people, comments, post, media, audit, pay
 # admin
-app.register_blueprint(admin, url_prefix="/noobw-adm")
+app.register_blueprint(admin, url_prefix="/admin")
 app.register_blueprint(media, url_prefix="/media")
 app.register_blueprint(pay, url_prefix="/pay")
 
@@ -166,15 +167,18 @@ def api_csrf():
         else:
             g.tn = "pc"
 
-# Global news************************************************************************
+
+# # Global news************************************************************************
 @app.before_request
 def msg():
-
+    request.value = MyRequest()
     g.imghost = config['upload'].IMG_HOST
     g.avahost = config['upload'].AVA_HOST
     g.post_thu = config['upload'].POST_THU
     g.ava_thu = config['upload'].AVA_THU
-    if current_user.is_authenticated():
+    print current_user.__dict__
+    if current_user.is_authenticated:
+
         g.msg = {}
         g.msg['msgs'] = mdb_user.db.msg.find({'user_id':current_user.id, 'case_status':1, 'status':0})
         g.msg['cnt'] = g.msg['msgs'].count()

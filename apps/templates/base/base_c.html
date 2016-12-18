@@ -1,0 +1,28 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html lang="en" class="app js touch no-android no-chrome no-firefox no-iemobile no-ie no-ie8 no-ie10 no-ie11 ios no-ios7 ipad">
+{% include "base/html_head.html" %}
+<body class="">
+  <section class="vbox">
+      {% include "base/header_c.html" %}
+      <section>
+            <section class="hbox stretch">
+             {% include "base/nav_c.html" %}
+                <section id="content">
+                     <section class="vbox">
+                        <section class="scrollable">
+                        {% block content %}
+                          <!--content-->
+                        {% endblock %}
+                        </section>
+                     </section>
+                </section>
+
+             </section>
+       </section>
+  </section>
+
+    {% include "base/footer_js.html" %}
+
+</body>
+</html>

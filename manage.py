@@ -2,9 +2,11 @@
 #-*-coding:utf-8-*-
 from flask_script import Manager
 import sys
+import time
 from werkzeug.security import generate_password_hash
-from apps import mdb_user, create_app
+from apps import mdb_user, create_app, mdb_cont
 from apps.config import config
+from apps.user.models.user import user_model
 
 __author__ = 'all.woo'
 '''
@@ -71,22 +73,14 @@ def site_init():
     else:
         _id = role_root['_id']
 
-    print _id
     password_hash = generate_password_hash(password)
     root_user = mdb_user.db.user.find_one({"$or":[{"username":username}, {"email":email}]})
     if root_user:
         mdb_user.db.role.update({"_id":root_user._id},{"$set":{"password":password_hash}})
     else:
         print('create root user...')
-        user_id = mdb_user.db.user.insert({
-            "username":username,
-            "email":email,
-            "password":password_hash,
-            "domain":-1,
-            "active":True,
-            "role_id":_id,
-
-        })
+        user = user_model(username=username, email=email, password=password, domain=-1, role_id=_id, active=True)
+        user_id = mdb_user.db.user.insert(user)
 
         # profile
         user_profile = {
@@ -98,7 +92,14 @@ def site_init():
         }
         mdb_user.db.user_profile.insert(user_profile)
 
-    # other
+        # article type
+        mdb_cont.db.article_type.insert({'user_id':user_id, 'type':[]})
+        # article tag
+        mdb_cont.db.article_tag.insert({'user_id':user_id, 'tag':[]})
+
+    # ensureIndex
+    print("Ensure index")
+    mdb_user.db.user_profile.ensure_index([("user_id",1), ("user_domain",1)])
 
     print('[End] sit init')
 

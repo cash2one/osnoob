@@ -29,7 +29,10 @@ pay = Blueprint('pay', __name__, template_folder="templates", static_url_path='/
 # from apps.audit.views import  rule
 # from apps.pay.views import  pays
 
-# front
+# view
+from apps.index.views import index
+from apps.online.views import user
+
 #from apps.online.views import user, index, msg
 # from apps.people.views import index
 # from apps.post.views import posts, show, management, type_tag
@@ -37,6 +40,7 @@ pay = Blueprint('pay', __name__, template_folder="templates", static_url_path='/
 # from apps.search.views import post_s
 
 # api
+from apps.online.apis import user, oauth_login
 # from apps.post.apis import post_api
 # from apps.comment.apis import comment
 # from apps.online.apis import vercode, user, pageview

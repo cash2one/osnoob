@@ -1,12 +1,14 @@
 # -*-coding:utf-8-*-
 import re
+from bson import ObjectId
 from flask import url_for, request, jsonify, flash
 from flask_login import current_user, login_user, logout_user
 import time
-from apps import mdb, config, db, mdb_sys
-from apps.admin.models.user import User, Permission
-from apps.shared_tool.addr_format import addr_f
-from apps.shared_tool.image_up import img_del, img_up
+from apps import mdb_user, config, mdb_sys, mdb_cont
+from apps.config import Permission
+from apps.online.process.user_verify import User
+from apps.shared_tools.image.image_up import img_up, img_del
+from apps.shared_tools.region.addr_format import addr_f
 from apps.verify.process.email_code import verify_email_code
 from apps.verify.process.email_format import is_email
 from apps.verify.process.ver_code import verify_code, vercode_del, create_code
@@ -16,16 +18,17 @@ __author__ = 'woo'
 # 登录-------------------------------------------------------------------------------------
 def login_sha(adm = False):
     _data = {}
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         _data['success'] = True
         _data['url'] = request.args.get('next') or url_for('online.index')
         return jsonify(_data)
+    
     # code
-    username = request.form['username'].strip()
-    password = request.form['password'].strip()
-    code = request.form['vercode'].strip()
-    code_url = request.form['code_url'].strip()
-    remember_me = request.form['remember_me']
+    username = request.value.all('username').strip()
+    password = request.value.all('password').strip()
+    code = request.value.all('vercode').strip()
+    code_url = request.value.all('code_url').strip()
+    remember_me = request.value.all('remember_me')
     r = verify_code(code_url, code)
     vercode_err = False
     if not r:
@@ -34,10 +37,10 @@ def login_sha(adm = False):
 
     # name & pass
     if "." in username and '@' in username:
-        user = User.query.filter_by(email=username).first()
+        user = mdb_user.db.user.find_one({"email":username})
     else:
-        user = User.query.filter_by(username=username).first()
-
+        user = mdb_user.db.user.find_one({"username":username})
+    user = User(user)
     is_continue = False
     if user and adm:
         if user.can(Permission.ADMINISTER):
@@ -49,7 +52,7 @@ def login_sha(adm = False):
     if is_continue:
         # 如果验证码错误那就判断用户是否已经３次输错密码
         if vercode_err:
-            user_p = mdb.db.user_profile.find_one({'user_id':user.id})
+            user_p = mdb_user.db.user_profile.find_one({'user_id':user.id})
             if user_p and 'pass_error' in user_p and user_p['pass_error'] >= 5:
                 _data['flash'] = {'msg':'验证码错误！', 'type':'e'}
                 # 验证码
@@ -62,13 +65,13 @@ def login_sha(adm = False):
 
             if user.is_active():
                 login_user(user, remember_me)
-                mdb.db.user_profile.update({'user_id':current_user.id}, {"$set":{"pass_error":0}})
+                mdb_user.db.user_profile.update({'user_id':current_user.id}, {"$set":{"pass_error":0}})
                 # Record the info
                 login_info = {
                     'last_login_time':time.time(),
                     'last_login_ip':request.remote_addr,
                 }
-                mdb.db.user_profile.update({'user_id':current_user.id}, {'$set':login_info})
+                mdb_user.db.user_profile.update({'user_id':current_user.id}, {'$set':login_info})
 
                 _data['success'] = True
                 return jsonify(_data)
@@ -93,8 +96,8 @@ def login_sha(adm = False):
 # 判断是否需要验证码 -------------------------------------------------
 def need_vercode(user_id):
     _data = {}
-    mdb.db.user_profile.update({'user_id':user_id}, {"$inc":{"pass_error":1}})
-    user_p = mdb.db.user_profile.find_one({'user_id':user_id})
+    mdb_user.db.user_profile.update({'user_id':user_id}, {"$inc":{"pass_error":1}})
+    user_p = mdb_user.db.user_profile.find_one({'user_id':user_id})
     if user_p and ("pass_error" in user_p) and user_p['pass_error'] >= 5:
         _code = create_code()
         _data['code'] = _code
@@ -109,18 +112,19 @@ def p_password_reset(old_pass, new_pass):
     if 'flash' in r:
         return r
 
-    user = User.query.filter_by(id=current_user.id).first()
-    profile = mdb.db.user_profile.find_one_or_404({'user_id':current_user.id})
+    user = mdb_user.db.user.find_one({"_id":ObjectId(current_user.id)})
+
+    profile = mdb_user.db.user_profile.find_one_or_404({'user_id':current_user.id})
     if 'is_oauth_first_change' in profile and profile['is_oauth_first_change']:
         is_oauth_first_change = True
     else:
         is_oauth_first_change = False
-    if (user and user.verify_password(old_pass)) or (user and is_oauth_first_change):
-        user.password = new_pass
-        db.session.add(user)
-        db.session.commit()
+    if (user and current_user.verify_password(old_pass)) or (user and is_oauth_first_change):
+        new_password_hash = current_user.password(new_pass)
+        mdb_user.db.user.update({"_id":current_user.id}, {"$set":{"password":new_password_hash}})
+
         # log
-        mdb.db.user_op_log.insert({'user_id':current_user.id,
+        mdb_user.db.user_op_log.insert({'user_id':current_user.id,
                                    'op_type':'setpass',
                                    'time':time.time(),
                                    'status':'s',
@@ -134,7 +138,7 @@ def p_password_reset(old_pass, new_pass):
         return _data
 
     # log
-    mdb.db.user_op_log.insert({'user_id':current_user.id,
+    mdb_user.db.user_op_log.insert({'user_id':current_user.id,
                                'op_type':'setpass',
                                'time':time.time(),
                                'status':'f',
@@ -176,17 +180,15 @@ def p_email_change(code, code_id, email, password):
         if is_email(email):
             is_oauth_first_change = current_user.email.strip() in config['oauth_login'].EMAIL_LIST
             if current_user.verify_password(password) or is_oauth_first_change:
+                mdb_user.db.user.update({"_id":current_user.id},
+                                        {"$set":{"email":email, "update_time":time.time()}})
 
-                current_user.email = email
-                current_user.update_at = time.time()
-                db.session.add(current_user)
-                db.session.commit()
                 up = {'email':email}
                 if is_oauth_first_change:
                     up['is_oauth_first_change'] = True
-                mdb.db.user_profile.update({'user_id':current_user.id}, {'$set':up})
+                mdb_user.db.user_profile.update({'user_id':current_user.id}, {'$set':up})
                 # log
-                mdb.db.user_op_log.insert({'user_id':current_user.id,
+                mdb_user.db.user_op_log.insert({'user_id':current_user.id,
                                            'op_type':'setemail',
                                            'time':time.time(),
                                            'status':'s',
@@ -199,7 +201,7 @@ def p_email_change(code, code_id, email, password):
                 return _data
             else:
                 # log
-                mdb.db.user_op_log.insert({'user_id':current_user.id,
+                mdb_user.db.user_op_log.insert({'user_id':current_user.id,
                                            'op_type':'setemail',
                                            'time':time.time(),
                                            'status':'f',
@@ -217,7 +219,7 @@ def p_email_change(code, code_id, email, password):
 def p_retrieve_password(email, code, code_id, password, password2):
 
     _data = {}
-    user = User.query.filter_by(email=email).first()
+    user = mdb_user.db.user.find_one({"email":email})
     if user:
         r = verify_email_code(code_id, code)
     else:
@@ -225,7 +227,7 @@ def p_retrieve_password(email, code, code_id, password, password2):
         return _data
     if not r:
         # log
-        mdb.db.user_op_log.insert({'user_id':None,
+        mdb_user.db.user_op_log.insert({'user_id':None,
                                    'email':email,
                                    'op_type':'retrieve_pass',
                                    'time':time.time(),
@@ -244,9 +246,10 @@ def p_retrieve_password(email, code, code_id, password, password2):
             elif password != password2:
                 _data['flash'] = {'msg':'两次密码不一致！','type':'w'}
             else:
-                user.password = password
-                db.session.add(user)
-                db.session.commit()
+                user = User(user)
+                mdb_user.db.user.update({"_id":user["_id"]},
+                                        {"$set":{"password":user.password(password)}})
+
                 flash({'msg':'密码重设成功,请注意保管！','type':'s'})
                 logout_user()
                 _data['url'] = url_for('online.login')
@@ -257,7 +260,7 @@ def p_retrieve_password(email, code, code_id, password, password2):
 # 用户信息
 def p_user(user_id, level=1):
 
-    profile = mdb.db.user_profile.find_one({'user_id':user_id})
+    profile = mdb_user.db.user_profile.find_one({'user_id':user_id})
     if not 'pay' in profile or profile['pay']== []:
         profile['pay'] = {'use':0}
     else:
@@ -271,16 +274,16 @@ def p_user(user_id, level=1):
 def post_cnt_update(user_id):
 
     # 更新统计
-    post_cnt = mdb.db.posts.find({'user_id':user_id, 'status':1}).count()
-    mdb.db.user_profile.update({'user_id':user_id}, {'$set':{'post_cnt':post_cnt}})
+    post_cnt = mdb_cont.db.article.find({'user_id':user_id, 'status':1}).count()
+    mdb_user.db.user_profile.update({'user_id':user_id}, {'$set':{'post_cnt':post_cnt}})
 
 # ---------------------------------------------------------------------------------------------------------------------
 def user_edit_profile(uploaded_files, username, sex, addr, info):
     _data = {}
     domain = None
-    if 'u-domain' in request.form and request.form['u-domain'].strip():
+    if 'u-domain' in request.value.all and request.value.all['u-domain'].strip():
         names = mdb_sys.db.audit_rules.find_one({'type':'username'})
-        domain = request.form['u-domain'].strip().replace(' ','')
+        domain = request.value.all['u-domain'].strip().replace(' ','')
         if len(domain)<3 or len(domain)>30:
             flash({'msg':'个性域名:需要3至30个字符!', 'type':'w'})
             return jsonify(_data)
@@ -288,7 +291,7 @@ def user_edit_profile(uploaded_files, username, sex, addr, info):
             flash({'msg':'个性域名:只能是数字, 小写字母!', 'type':'w'})
             return jsonify(_data)
 
-        elif mdb.db.user_profile.find_one({'domain':domain}) or domain==str(current_user.id):
+        elif mdb_user.db.user_profile.find_one({'domain':domain}) or domain==str(current_user.id):
             flash({'msg':'此个性域名已被使用!', 'type':'w'})
             return jsonify(_data)
         elif domain in names and not current_user.can(Permission.ADMINISTER) and not current_user.is_role(Permission.ECP):
@@ -299,8 +302,8 @@ def user_edit_profile(uploaded_files, username, sex, addr, info):
         flash({'msg':'名号不能为空!', 'type':'w'})
         return jsonify(_data)
 
-    user = User.query.filter_by(username=username).first()
-    if  user and user.id != current_user.id:
+    user = mdb_user.db.user.find_one({"username":username})
+    if user and user["_id"] != current_user.id:
         flash({'msg':'此名号已被使用!', 'type':'w'})
         return jsonify(_data)
 
@@ -319,11 +322,6 @@ def user_edit_profile(uploaded_files, username, sex, addr, info):
 
     # ---------------------------------------------------------------
     tel = ""
-    current_user.username = username
-    current_user.update_at = time.time()
-    # 提交
-    db.session.add(current_user)
-    db.session.commit()
 
     # 地址
     _provinces = ''
@@ -374,7 +372,7 @@ def user_edit_profile(uploaded_files, username, sex, addr, info):
                 'sex':sex,
                 'avatar_url':r['url']
             }
-            u_p = mdb.db.user_profile.find_one({'user_id':current_user.id})
+            u_p = mdb_user.db.user_profile.find_one({'user_id':current_user.id})
             if u_p:
                 if not 'default' in u_p['avatar_url']['key']:
                     img_del(u_p['avatar_url'])
@@ -387,14 +385,12 @@ def user_edit_profile(uploaded_files, username, sex, addr, info):
             'tel_num':tel,
             'sex':sex
             }
-    user = User.query.get_or_404(current_user.id)
-    user.username = username
+
+    mdb_user.db.user.update({"_id":current_user.id}, {"$set":{"username":username}})
     if domain:
         user_profile['user_domain'] = domain
         user.domain = domain
-    mdb.db.user_profile.update({'user_id':current_user.id}, {'$set':user_profile})
-    db.session.add(user)
-    db.session.commit()
+    mdb_user.db.user_profile.update({'user_id':current_user.id}, {'$set':user_profile})
     flash({'msg':'信息修改成功哦.','type':'s'})
 
     return _data

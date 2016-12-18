@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//ZH" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="zh-cmn-Hans" class="app js touch no-android no-chrome no-firefox no-iemobile no-ie no-ie8 no-ie10 no-ie11 ios no-ios7 ipad js no-touch no-android chrome no-firefox no-iemobile no-ie no-ie8 no-ie10 no-ie11 no-ios no-ios7 ipad">
+{% include "base/html_head.html" %}
+<body >
+  <section  class="vbox">
+      {% include "base/header.html" %}
+      <section>
+            <section class="hbox stretch">
+             {% include "base/nav.html" %}
+                <section id="content">
+                    <section class="vbox">
+                        <section class="scrollable">
+                            {% include "base/m_nav.html" %}
+                            {% block content %}
+                      <!--content-->
+
+                            {% endblock %}
+                            {% include "base/footer.html" %}
+                        </section>
+                    </section>
+                </section>
+             </section>
+       </section>
+  </section>
+    <!--<div id="moquu_wxin" class="moquu_wxin">-->
+        <!--<a href="javascript:void(0)" style="background:url(http://{{g.imghost}}/sys_default-to-top.png) 0 3px;">-->
+            <!--<div class="moquu_wxinh" style="background:url(http://{{g.imghost}}/show-weixin.png)"></div>-->
+        <!--</a>-->
+    <!--</div>-->
+    <!--<a id="moquu_top"  href="#"  style="background:url(http://{{g.imghost}}/sys_default-to-top.png) 0 -47px;"></a>-->
+    {% include "base/footer_js.html" %}
+
+</body>

@@ -1,19 +1,19 @@
 # osnoob
 *~
 *.log
-venv/*
-log/*
-logs/*
+venv/
+log/
+logs/
 media
-ver_code/*
+ver_code/
 *cache_dir
 *.pyc
 *.py~
 db_config.py
 db_config.py*
 !config.py
-flask_session/*
-web_cache_dir/*
+flask_session/
+web_cache_dir/
 .idea/
 *.ini
 

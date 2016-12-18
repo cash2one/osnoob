@@ -1,33 +1,40 @@
+#!/usr/bin/env python
 #-*-coding:utf-8-*-
-from flask import url_for, request, jsonify, render_template, flash
-from flask_login import login_required, current_user
 from random import randint
-from flask_mail import Message
+from flask import request, jsonify, flash, url_for, render_template
 import time
-from apps import mdb, config, db, mdb_sys
-from apps.admin.models.user import User, Permission, Role
+from flask_login import login_required, current_user
+from flask_mail import Message
 from apps.blueprint import api
-from apps.online.process.user import login_sha, p_password_reset, password_format, p_email_change, p_retrieve_password
-from apps.shared_tool.addr_format import addr_f
-from apps.shared_tool.email.email_format import ver_email
-from apps.shared_tool.email.send_email import send_email
-from apps.shared_tool.email.token import generate_confirmation_token
+from apps.config import Permission
+from apps import mdb_user, mdb_sys, config, mdb_cont
+from apps.online.process.user import password_format, p_email_change, p_password_reset, login_sha, p_retrieve_password
+from apps.online.process.user_verify import User
+from apps.shared_tools.email.email_format import ver_email
+from apps.shared_tools.email.send_email import send_email
+from apps.shared_tools.email.token import generate_confirmation_token
+from apps.shared_tools.region.addr_format import addr_f
+from apps.user.models.user import user_model
 from apps.verify.process.email_format import is_email
 from apps.verify.process.ver_code import verify_code, vercode_del, create_code
+
+__author__ = 'woo'
 
 # --------------------------------------------------------------------------------------------------------
 @api.route('/sign-up', methods=['POST'])
 def sign_up():
 
     _data = {'flash':None}
-    role_id = Role.query.filter_by(permissions=Permission.AVERABGEUSER).first().id
+    role = mdb_user.db.role.find_one({"permissions":Permission.AVERABGEUSER})
+    if role:
+        role_id = role['_id']
     # code
-    email = request.form['email'].strip()
-    username = request.form['username'].strip()
-    password = request.form['password'].strip()
-    password2 = request.form['password2'].strip()
-    code = request.form['vercode'].strip()
-    code_url = request.form['code_url']
+    email = request.value.all['email'].strip()
+    username = request.value.all['username'].strip()
+    password = request.value.all['password'].strip()
+    password2 = request.value.all['password2'].strip()
+    code = request.value.all['vercode'].strip()
+    code_url = request.value.all['code_url']
     r = verify_code(code_url, code)
     if not ver_email(email):
         _data['flash'] = {'msg':'邮箱格式错误！', 'type':'e'}
@@ -36,9 +43,10 @@ def sign_up():
         vercode_del(code_url)
     elif password2 != password:
         _data['flash'] = {'msg':'两次密码不一致！', 'type':'e'}
-    elif User.query.filter_by(email=email).first():
+    elif mdb_user.db.user.find_one({"email":email}):
         _data['flash'] = {'type':'w','msg':u'此邮箱已在该网站注册过哦，请直接登录！'}
-    elif User.query.filter_by(username=username).first():
+
+    elif mdb_user.db.user.find_one({"username":username}):
         _data['flash'] = {'type':'w','msg':u'此名号已被使用，请再取一个吧！'}
 
     if not _data['flash']:
@@ -58,14 +66,9 @@ def sign_up():
 
     if not _data['flash']:
         if is_email(email):
-            user = User(username=username,
-                        email=email,
-                        password=password,
-                        role_id=role_id,
-                        )
-            db.session.add(user)
-            db.session.commit()
-
+            user = user_model(username=username, email=email, password=password, domain=-1, role_id=role_id)
+            user_id = mdb_user.db.user.insert(user)
+            user = User(mdb_user.db.user.find_one({"_id":user_id}))
             # 邮箱验证加密链接
             token = generate_confirmation_token(user.email)
 
@@ -85,11 +88,11 @@ def sign_up():
                 "pay":{'alipay':{'use':0}, 'webchatpay':{'use':0}}
 
             }
-            mdb.db.user_profile.insert(user_profile)
-            # post type
-            mdb.db.post_type.insert({'user_id':user.id, 'type':[]})
-            # post tag
-            mdb.db.tag.insert({'user_id':user.id, 'tag':[]})
+            mdb_user.db.user_profile.insert(user_profile)
+            # article type
+            mdb_cont.db.article_type.insert({'user_id':user.id, 'type':[]})
+            # article tag
+            mdb_cont.db.article_tag.insert({'user_id':user.id, 'tag':[]})
 
             # email token
             confirm_url = url_for('online.confirm_email', token=token, _external=True)
@@ -218,7 +221,7 @@ def addr_data():
 def user_addr():
     _data = {}
     # 地址
-    profile = mdb.db.user_profile.find_one_or_404({'user_id':current_user.id})
+    profile = mdb_user.db.user_profile.find_one_or_404({'user_id':current_user.id})
     addrs = addr_f()
     _provinces = ""
     _city = ""
