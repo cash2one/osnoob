@@ -18,7 +18,7 @@ __author__ = 'woo'
 # 登录-------------------------------------------------------------------------------------
 def login_sha(adm = False):
     _data = {}
-    if current_user.is_authenticated:
+    if current_user.is_authenticated():
         _data['success'] = True
         _data['url'] = request.args.get('next') or url_for('online.index')
         return jsonify(_data)

@@ -176,9 +176,7 @@ def msg():
     g.avahost = config['upload'].AVA_HOST
     g.post_thu = config['upload'].POST_THU
     g.ava_thu = config['upload'].AVA_THU
-    print current_user.__dict__
-    if current_user.is_authenticated:
-
+    if current_user.is_authenticated():
         g.msg = {}
         g.msg['msgs'] = mdb_user.db.msg.find({'user_id':current_user.id, 'case_status':1, 'status':0})
         g.msg['cnt'] = g.msg['msgs'].count()

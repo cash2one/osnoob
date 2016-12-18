@@ -13,7 +13,10 @@ class User(UserMixin):
     @author allen.woo'
     '''
 
-    def __init__(self, _user=None, _id=None):
+
+    def __init__(self, _user=None, _id=None, **kwargs):
+        super(User, self).__init__(**kwargs)
+
         if _id and not _user:
             user = mdb_user.db.user.find_one({"id":_id})
         elif _user:
@@ -26,30 +29,30 @@ class User(UserMixin):
         else:
             return None
 
-    def password(self, password):
+    @property
+    def password(self):
+        raise ArithmeticError('password is not a readable attribute')
 
-        return generate_password_hash(password)
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    # **************************************************************
     def auth_judge(self, permissions):
         role = mdb_user.db.role.find_one({"_id":ObjectId(self.user["role_id"])})
 
         return role and permissions <= role['permissions'] and self.user["active"] and not self.user["is_delete"]
 
-    # **************************************************************
     def can(self, permissions):
         role = mdb_user.db.role.find_one({"_id":ObjectId(self.user["role_id"])})
         return role and permissions <= role["permissions"] and self.user["active"] and not self.user["is_delete"]
 
-    # ----------------------------------------------------------------------------------------
     def is_role(self, permissions):
         role = mdb_user.db.role.find_one({"_id":ObjectId(self.user["role_id"])})
         return role and permissions == role["permissions"] and self.user["active"] and not self.user["is_delete"]
 
-    # **************************************************************
     def is_administrator(self):
         return self.can(Permission.ADMINISTER)
 
@@ -67,10 +70,13 @@ class User(UserMixin):
         return False
 
     def get_id(self):
-        self.user["_id"]
+        try:
+            return unicode(self.id)  # python 2
+        except NameError:
+            return str(self.id)  # python 3
 
     def __repr__(self):
-        return '<User %r>' % (self.username)
+        return self.username
 
 
 def password_hash(password):
@@ -80,8 +86,7 @@ def password_hash(password):
 # Load the user callback function***************************************************************************************
 @login_manger.user_loader
 def load_user(user_id):
-    print user_id
-    user = mdb_user.db.find_one({"_id":ObjectId(user_id)})
+    user = mdb_user.db.user.find_one({"_id":ObjectId(user_id)})
     if user:
         return User(user)
     else:

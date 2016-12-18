@@ -15,7 +15,7 @@ __author__ = 'woo'
 def login():
     view_data = {'login_type':'f'}
     Markup('''<meta property="qc:admins" content="14111676166677276375" />''')
-    if current_user.is_authenticated:
+    if current_user.is_authenticated():
         return redirect(url_for('online.index'))
     return render_template('online/login.html',view_data=view_data)
 
@@ -24,7 +24,7 @@ def login():
 def login():
 
     view_data = {'login_type':'c', 'title':'登录管理台'}
-    if current_user.is_authenticated:
+    if current_user.is_authenticated():
         return redirect(url_for('admin.index'))
     # 验证码
     _code = create_code()
