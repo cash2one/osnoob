@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="app">
+{% include "base/html_head.html" %}
+
+<body class="bg-default dker">
+<link rel="stylesheet" href="{{url_for('static', filename='css/font.css')}}" type="text/css" />
+<script src="{{url_for('static', filename='js/noob-online.js')}}?version={{g.version}}"> </script>
+<section  class="hbox stretch">
+  <section id="content" class="m-t-lg wrapper-md animated fadeInUp">
+   <section class="vbox">
+      <section class="scrollable">
+    <div class="container aside-xl">
+        <a class="block" style="float: none;text-align: center;" href="/">
+            <img  style="text-align:center;width:margin:0 auto;height:40px" src="http://{{g.imghost}}/sys_default-logo.png?noob-v={{g.version}}"  alt="logo">
+        </a>
+      <section class="m-b-lg">
+
+        <header class="wrapper text-center">
+            {% if view_data.login_type == 'c' %}
+                <h4>管理平台</h4>
+            <strong>请勿用公用网络或公用设备登录!</strong>
+            {%  endif %}
+            {% include "base/flash.html" %}
+        </header>
+
+        <div id="sign-in">
+            <span id="flash" style="color:#800000;" hidden></span>
+		  <div class="form-group">
+			  <input class="form-control input-lg text-center" id="username" name="username" placeholder="用户名或邮箱" style="background-color:#ffffff;" type="text">
+		  </div>
+		  <div class="form-group">
+			  <input class="form-control input-lg text-center" id="password" name="password" placeholder="密码" type="password">
+		  </div>
+
+          <div id="div-vercode" class="form-group" hidden>
+                  <div class="form-inline">
+                  <input id="code-url"  name="code-url" value="" hidden>
+                  <input class="form-control input-lg text-center pull-left" id="vercode"  style="display:inline-block;vertical-align:middle;" name="vercode" placeholder="验证码" style="background-color:#ffffff;" type="text" value="">
+                   &nbsp;
+                  <p class="hidden-md hidden-lg"></p>
+                  <img onclick="get_vercode()" id="code-img" src="" style="cursor:pointer;vertical-align:middle;" width="140px" height="45px" alt="验证码.换一张" title="看不清.换一张"/>
+                  <small class="hidden-md hidden-lg" onclick="get_vercode()">看不清?换一张</small>
+             </div>
+          </div>
+
+        <div class="checkbox i-checks m-b">
+            <label class="m-l">
+              <small class="pull-left">
+                  <input id="remember_me" name="remember_me" type="checkbox" value="y"><i></i>记住登录
+              </small>
+              <small class="pull-right">
+                  <a href="/accounts/retrieve-password">忘记密码</a>
+              </small>
+            </label>
+        </div>
+            {% if view_data.login_type == 'c' %}
+			    <input onclick="sign_in('adm')"  class="btn btn-lg btn-block" type="button" id="submit" name="submit" style="background-color:#131916;color:#E9EFE9;"  value="登录">
+            {% else %}
+                <input onclick="sign_in('user')"  class="btn btn-lg btn-block" type="button" id="submit" name="submit" style="background-color:#131916;color:#E9EFE9;"  value="登录">
+            {% endif %}
+        </div>
+
+          {% if view_data.login_type == 'f' %}
+              <div class="checkbox i-checks m-b">
+                  <label class="m-l" >
+                        <small class="pull-right" style="font-size:15px">没有账号-<a href="{{url_for('online.register')}}" >注册</a></small>
+                  </label>
+              </div>
+          {% endif %}
+          <div class="form-group"  style="text-align:center;">
+               <small style="font-size:15px">第三方网络登录(此功能正在内测)</small></br>
+              <a href="{{url_for('online.login_oauth')}}">
+                <img style="width:55px;height:55px" src="http://{{g.imghost}}/sys_default-qq_login.png?noob-v={{g.version}}" alt="使用QQ登录">
+              </a>
+          </div>
+      </section>
+    </div>
+  </section>
+</section>
+</section>
+</section>
+</br></br>
+{% include "base/footer_one.html" %}
+ {% include "base/footer_js.html" %}
+</body>
+</html>

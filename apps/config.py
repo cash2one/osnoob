@@ -254,6 +254,10 @@ class Verify():
 
     VERIFY_FAILURE_TIME = 60*10
 
+class Theme():
+
+    THEME_NAME = "osnoob-cms"
+
 # **********************************************************************************************************************
 config = {
     'testing':TestingConfig,
@@ -275,6 +279,7 @@ config = {
     'permission':Permission,
     "weblogger":WebLogger,
     'verify':Verify,
+    "theme":Theme,
 }
 
 
