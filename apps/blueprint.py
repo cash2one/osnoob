@@ -5,11 +5,12 @@ __author__ = 'woo'
 
 # create blueprint
 #admin
+
 admin = Blueprint('admin', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
 # front
 api = Blueprint('api', __name__)
-
-online = Blueprint('online', __name__, template_folder="themes", static_url_path='/themess', static_folder='themes/static')
+base = Blueprint('base', __name__, template_folder="themes")
+online = Blueprint('online', __name__, template_folder="themes")
 
 people = Blueprint('people', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
 

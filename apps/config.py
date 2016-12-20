@@ -257,6 +257,7 @@ class Verify():
 class Theme():
 
     THEME_NAME = "osnoob-cms"
+    ADM_THEME_NAME = "admin-pages"
 
 # **********************************************************************************************************************
 config = {

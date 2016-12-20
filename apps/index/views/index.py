@@ -1,10 +1,13 @@
-from flask import render_template, g
-from apps.blueprint import online
+#!/usr/bin/env python
+#-*-coding:utf-8-*-
+from flask import render_template
+from apps.blueprint import base
+from apps.config import config
 
 __author__ = 'woo'
 
 # **********************************************************************************************************************
-@online.route('/', methods=['GET', 'POST'])
+@base.route('/', methods=['GET', 'POST'])
 def index():
-    view_data = {}
-    return render_template('{}/index.html'.format(g.theme_name), view_data = view_data)
+    view_data = {"title":u"Osnoob-Open source CMS"}
+    return render_template('{}/index.html'.format(config['theme'].THEME_NAME), view_data = view_data)

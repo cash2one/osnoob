@@ -24,7 +24,8 @@ from apps.shared_tools.request.my_request import MyRequest
 '''
 
 # Flask Create extension instances**************************************************************************************
-app = Flask(__name__)
+#app = Flask(__name__, static_folder='themes', static_url_path='/themes/{}'.format(config["theme"].THEME_NAME))
+app = Flask(__name__, static_folder='themes', static_url_path='/themes')
 mdb_user = PyMongo()
 mdb_sys = PyMongo()
 mdb_cont = PyMongo()
@@ -82,14 +83,15 @@ qq = oauth.remote_app(
 )
 
 # register blueprint----------------------------------------------------------
-from apps.blueprint import api, admin, online, people, comments, post, media, audit, pay
+from apps.blueprint import api, base, admin, online, people, comments, post, media, audit, pay
 # admin
 app.register_blueprint(admin, url_prefix="/admin")
 app.register_blueprint(media, url_prefix="/media")
 app.register_blueprint(pay, url_prefix="/pay")
 
 # user
-app.register_blueprint(online)
+app.register_blueprint(base)
+app.register_blueprint(online, url_prefix="/account")
 app.register_blueprint(api, url_prefix="/api")
 app.register_blueprint(people, url_prefix="/people")
 app.register_blueprint(comments, url_prefix="/comment")
