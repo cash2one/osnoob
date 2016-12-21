@@ -6,23 +6,25 @@ __author__ = 'woo'
 # create blueprint
 #admin
 
-admin = Blueprint('admin', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
+admin = Blueprint('admin', __name__, template_folder="themes")
 # front
 api = Blueprint('api', __name__)
+
 base = Blueprint('base', __name__, template_folder="themes")
+
 online = Blueprint('online', __name__, template_folder="themes")
 
-people = Blueprint('people', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
+people = Blueprint('people', __name__, template_folder="themes")
 
-comments = Blueprint('comments', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
+comments = Blueprint('comments', __name__, template_folder="themes")
 
-post = Blueprint('post', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
+post = Blueprint('post', __name__, template_folder="themes")
 
-media = Blueprint('media', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
+media = Blueprint('media', __name__, template_folder="themes")
 
-audit = Blueprint('audit', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
+audit = Blueprint('audit', __name__, template_folder="themes")
 
-pay = Blueprint('pay', __name__, template_folder="themes", static_url_path='/themes', static_folder='themes')
+pay = Blueprint('pay', __name__, template_folder="themes")
 
 #admin
 # from apps.admin.views import user, index

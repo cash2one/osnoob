@@ -108,15 +108,15 @@ def create_app(environment):
 # 404 400 500-----------------------------------------------------------------------------------------------------------
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('exception/404.html', view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 404
+    return render_template('{}/exception/404.html'.format(config["theme"].THEME_NAME), view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 404
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template('exception/400.html', request_id=g.log['request_id'], view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 500
+    return render_template('{}/exception/400.html'.format(config["theme"].THEME_NAME), request_id=g.log['request_id'], view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 500
 
 @app.errorhandler(400)
 def internal_server_error(e):
-    return render_template('exception/400.html', request_id=g.log['request_id'], view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 400
+    return render_template('{}/exception/400.html'.format(config["theme"].THEME_NAME), request_id=g.log['request_id'], view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 400
 
 
 # API --------------------------------------------------------------------------------------
@@ -179,7 +179,7 @@ def msg():
     g.post_thu = config['upload'].POST_THU
     g.ava_thu = config['upload'].AVA_THU
     g.theme_name = config["theme"].THEME_NAME
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         g.msg = {}
         g.msg['msgs'] = mdb_user.db.msg.find({'user_id':current_user.id, 'case_status':1, 'status':0})
         g.msg['cnt'] = g.msg['msgs'].count()
