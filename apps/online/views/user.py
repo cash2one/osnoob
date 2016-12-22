@@ -13,11 +13,11 @@ __author__ = 'woo'
 # **********************************************************************************************************************
 @base.route('/sign-in', methods=['GET', 'POST'])
 def sign_in():
-    view_data = {'login_type':'f'}
+    view_data = {'login_type':'f', 'title':'Sign in'}
     Markup('''<meta property="qc:admins" content="14111676166677276375" />''')
     if current_user.is_authenticated:
         return redirect(url_for('base.index'))
-    return render_template('{}/online/sign-in.html'.format(config['theme'].THEME_NAME),view_data=view_data)
+    return render_template('{}/online/sign-in.html'.format(config['theme'].THEME_NAME), view_data=view_data)
 
 # **********************************************************************************************************************
 @admin.route('/woo', methods=['GET', 'POST'])
