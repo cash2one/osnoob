@@ -97,8 +97,11 @@ class Paging(Config):
     POST_COMMENT = 10
     # front
 
+class Theme(Config):
 
-# **********************************************************************************************************************
+    THEME_NAME = "osnoob-cms"
+    ADM_THEME_NAME = "admin-pages"
+
 class Upload(Config):
 
     '''
@@ -116,12 +119,11 @@ class Upload(Config):
     POST_BODY_THU = "?imageView/2/w/740"
 
     # ----------------------------------------
-    HOST = '{}/apps/static'.format(sys.path[0])
+    theme = Theme()
+    HOST = '{}/apps/themes/sys'.format(sys.path[0], theme.THEME_NAME)
     # These are the extension that we are accepting to be uploaded
     ALLOWED_EXTENSIONS= set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'ico'])
-    IMG_PROJECT = [('adv', u'推广'), ('show', u'展示'), ('post', u'Post'), ('sys_default','网站图标')]
 
-# **********************************************************************************************************************
 class User(Config):
     
     '''
@@ -232,7 +234,13 @@ class Permission():
     '''
     Rights management role
     '''
-
+    one_list = one_list = [(0b00000001, 'AVERABGEUSER'),
+                (0b00001000, 'ECP'),
+                (0b00010000, 'EDITOR'),
+                (0b00100000, 'AUDITOR'),
+                (0b01000000, 'ADMINISTER'),
+                (0b10000000, 'ROOT'),
+                ]
     AVERABGEUSER = 0b00000001
     ECP =          0b00001000
     EDITOR =       0b00010000
@@ -253,11 +261,6 @@ class WebLogger(Config):
 class Verify():
 
     VERIFY_FAILURE_TIME = 60*10
-
-class Theme():
-
-    THEME_NAME = "osnoob-cms"
-    ADM_THEME_NAME = "admin-pages"
 
 # **********************************************************************************************************************
 config = {

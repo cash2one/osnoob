@@ -129,7 +129,6 @@ def sign_in():
 # --------------------------------------------------------------------------------------------------------
 @api.route('/adm/sign-in', methods=['POST'])
 def adm_sign_in():
-
     _data = login_sha(adm = True)
     return _data
 

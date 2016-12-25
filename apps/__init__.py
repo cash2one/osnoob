@@ -15,7 +15,7 @@ from apps.db_config import config as db_config
 from flask_bootstrap import Bootstrap
 from qiniu import Auth
 from flask_login import LoginManager, current_user
-#from apps.weblogger.access import logger
+from apps.weblogger.access import logger
 from apps.shared_tools.request.my_request import MyRequest
 
 '''
@@ -40,7 +40,7 @@ qn = Auth(db_config['qiniu'].ACCESS_KEY, db_config['qiniu'].SECRET_KEY)
 
 login_manger.session_protection = 'strong'
 login_manger.login_view = 'online.login'
-#log = logger()
+log = logger()
 oauth = OAuth()
 
 # app config---------------------------------------------------------------------
@@ -64,7 +64,7 @@ bootstrap.init_app(app)
 login_manger.init_app(app)
 moment.init_app(app)
 mail.init_app(app)
-#log.init_app(app)
+log.init_app(app)
 oauth.init_app(app)
 
 # oauth --------------------------------------------------------------------------
@@ -112,11 +112,11 @@ def page_not_found(e):
 
 @app.errorhandler(500)
 def internal_server_error(e):
-    return render_template('{}/exception/400.html'.format(config["theme"].THEME_NAME), request_id=g.log['request_id'], view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 500
+    return render_template('{}/exception/400.html'.format(config["theme"].THEME_NAME), request_id=g.request_id, view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 500
 
 @app.errorhandler(400)
 def internal_server_error(e):
-    return render_template('{}/exception/400.html'.format(config["theme"].THEME_NAME), request_id=g.log['request_id'], view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 400
+    return render_template('{}/exception/400.html'.format(config["theme"].THEME_NAME), request_id=g.request_id, view_data={'title':u'该页面不存在了-{}'.format(SITE_NAME)}), 400
 
 
 # API --------------------------------------------------------------------------------------

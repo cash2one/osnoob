@@ -1,0 +1,129 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "admin-pages/base/base_c.html" %}
+{% block content %}
+
+<section class="vbox">
+    <section class="scrollable padder">
+      <section class="panel panel-default">
+        <header class="panel-heading">
+          {{view_data.page_name}}
+        </header>
+        <div class="row wrapper">
+          <div class="col-sm-6">
+                <form ACTION method="GET">
+                <div class="col-sm-4 hidden-xs">
+                    {{form_s.q(class="input-sm form-control input-s-sm inline v-middle")}}
+                    {{form_s.submit(class="btn btn-sm btn-default")}}
+                </div>
+                </form>
+          </div>
+          <div class="col-sm-6">
+               <form action method="GET">
+                   {{form.q(value=view_data.state)}}
+                 <div class="col-sm-9 m-b-xs">
+                    {{form.search_value(class="input-sm form-control", placeholder="搜索...")}}
+                  </div>
+                 <div class="col-sm-3 m-b-xs">
+                    {{form.submit(class="btn btn-sm btn-default")}}
+                  </div>
+              </form>
+          </div>
+        </div>
+        <div class="table-responsive" >
+             {% include "admin-pages/base/flash.html" %}
+          <form ACTION="{{url_for('pay.delete_pay')}}" method="POST">
+          <table class="table table-striped b-t b-light">
+            <thead>
+              <tr>
+                <th style="width:20px;"><label class="checkbox m-n i-checks">{{ form_del.boolean }}<i></i></label></th>
+                <th>用户</th>
+                  <th>邮箱</th>
+                <th>支付类型</th>
+                  <th>状态</th>
+                <th>时间</th>
+                <th>二维码</th>
+              </tr>
+            </thead>
+
+            {% for user in view_data.users %}
+              {% for pay in user.pay.keys()  %}
+              <tr>
+                <td><label class="checkbox m-n i-checks">{{ form_del.boolean(value=[user._id, pay]) }}<i></i></label></td>
+                <td>
+                    {{user.username}}
+                </td>
+                  <td>
+                    {{user.email}}
+                </td>
+                <td>
+                    {{pay}}
+                </td>
+                  <td>
+                      {% if user.pay[pay].status == 0%}
+                            <span style = "color:#A1B6AB;">未审核</span>
+                      {% elif user.pay[pay].status == 1%}
+                             <span style = "color:#1AB667;">通过</span>
+                      {% else %}
+                             <span style = "color:#DD302D;">未通过</span>
+                      {% endif %}
+
+                </td>
+                <td value="{{user.pay[pay].time}}" unix-time-s>
+                    {{user.pay[pay].time}}
+                </td>
+                <td>
+                    <img src="http://{{g.imghost}}/{{user.pay[pay].url.key}}" width="120px" height="120px">
+                </td>
+
+              </tr>
+                {% endfor %}
+              {% endfor %}
+          </table>
+        </div>
+        <footer class="panel-footer">
+          <div class="row">
+              <div class="col-sm-3 m-b-xs">
+              {{ form_del.csrf_token }}
+                  {{form_del.q(value=view_data.state)}}
+                  {{form_del.op_type(class="input-sm form-control input-s-sm inline v-middle")}}
+                  {{form_del.submit(class="btn btn-sm btn-default")}}
+               </div>
+            <div class="col-sm-4 text-center">
+              <small class="text-muted inline m-t-sm m-b-sm">Noobw打赏二维码管理</small>
+            </div>
+          </div>
+            <div class="row"">
+                <!-- 分页 -->
+                <div class="text-center m-t-lg m-b-lg">
+                  <ul class="pagination pagination-md">
+                      <li><a href="{{url_for('pay.pays_management', page=view_data.l_page,q=view_data.state)}}" class="active"><i class="fa fa-chevron-left"></i></a></li>
+                      {% for p in view_data.l_show_num %}
+                          {% if p == '...' %}
+                              <li><a href="#">{{p}}</a></li>
+                          {% else %}
+                              <li><a href="{{url_for('pay.pays_management', page=p,q=view_data.state)}}">{{p}}</a></li>
+                          {% endif %}
+                      {% endfor %}
+
+                      <li class="active"><a href="#" class="active">{{view_data.page_num}}</a></li>
+
+                      {% for p in view_data.n_show_num %}
+                          {% if p == '...' %}
+                              <li><a href="#">{{p}}</a></li>
+                          {% else %}
+                              <li><a href="{{url_for('pay.pays_management', page=p,q=view_data.state)}}">{{p}}</a></li>
+                          {% endif %}
+                      {% endfor %}
+
+                      <li><a href="{{url_for('pay.pays_management', page=view_data.n_page,q=view_data.state)}}"  class="active"><i class="fa fa-chevron-right"></i></a></li>
+                  </ul>
+                </div>
+                <!-- //分页 -->
+          </div>
+        </footer>
+          </form>
+      </section>
+    </section>
+    </section>
+
+{% endblock %}

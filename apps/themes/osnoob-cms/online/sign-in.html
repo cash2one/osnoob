@@ -1,45 +1,23 @@
-<head>
-    <!-- Page title -->
-    <title>{{view_data.title}}-Osnoob</title>
-
-    <!-- Meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="{{url_for('static', filename='osnoob-cms/static/image/favicon.png')}}?version={{g.version}}" >
-
-    <!-- Style -->
-    <link rel="alternate stylesheet" href= "{{url_for('static', filename='osnoob-cms/static/css/osnoob.css')}}?version={{g.version}}" title="osnoob">
-    <link rel="stylesheet" href= "{{url_for('static', filename='osnoob-cms/static/css/theme.css')}}?version={{g.version}}">
-
-</head>
-
-<link rel="stylesheet" href="{{url_for('static', filename='css/font.css')}}" type="text/css" />
-<script src="{{url_for('static', filename='js/noob-online.js')}}?version={{g.version}}"> </script>
-
+<!DOCTYPE html>
+<html lang="en">
+{% include "osnoob-cms/base/html_head.html" %}
+<body>
 <!-- Section: Page Header -->
 <section class="section-page-header" style="background:#FFFFFF">
     <div class="container">
         <div class="row" >
-
             <!-- Page Title -->
             <div class="col-md-4">
-
             </div>
             <div class="col-md-4">
-            <!-- /Page Title -->
-            <a class="center-block" style="float: none;text-align: center;" href="/">
-                    <img  style="text-align:center;width:margin:0 auto;height:40px" src="http://{{g.imghost}}/sys_default-logo.png?noob-v={{g.version}}"  alt="logo">
+
+                <a class="center-block" style="float: none;text-align: center;font-size:50px" href="/">
+                    Osnoob
+                    <!--<img  style="text-align:center;width:margin:0 auto;height:40px" src="http://{{g.imghost}}/sys_default-logo.png?noob-v={{g.version}}"  alt="logo">-->
                 </a>
-            <!-- Breadcrumbs -->
-                </div>
-            <div class="col-md-4">
-
             </div>
-            <!-- /Breadcrumbs -->
-
+            <div class="col-md-4"></div>
+            <!-- /Page Title -->
         </div>
     </div>
 </section>
@@ -49,66 +27,65 @@
     <section>
         <div class="container">
             <!-- Project -->
-            <div class="row" style="margin-right:25px;margin-left:25px">
+            <div class="row">
                 <!-- Project Images -->
-                <div class="col-md-7 hidden-xs hidden-sm" >
+
+                <div class="col-md-8 hidden-xs hidden-sm">
                     <div >
-                            <a href="{{url_for('static', filename='osnoob-cms/static/images/home-02.jpg')}}" class="image-popup">
-                                <div class="gallery-image" style="height:auto">
-                                    <img src="{{url_for('static', filename='osnoob-cms/static/images/home-02.jpg')}}" >
-                                </div>
-                            </a>
+                        <a href="{{url_for('static', filename='osnoob-cms/static/images/home-02.jpg')}}" class="image-popup">
+                            <div class="gallery-image" style="height:auto">
+                                <img src="{{url_for('static', filename='osnoob-cms/static/images/home-02.jpg')}}" >
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <!-- /Project Images -->
 
                 <!-- Project Information -->
-                <div class="col-md-5 project-information" style="margin-right:25px;margin-left:25px">
+                <div class="col-md-4 project-information" >
                     <!--<h3 class="title">Project Description</h3>-->
 
-                <header class="wrapper text-center" >
                     {% if view_data.login_type == 'c' %}
-                        <h4>管理平台</h4>
+                        <h3 class="title">管理平台</h3>
                     <strong>请勿用公用网络或公用设备登录!</strong>
                     {%  endif %}
-                </header>
 
-                <div id="sign-in">
-                    <span id="flash" style="color:#800000;" hidden></span>
-                  <div class="form-group">
-                      <input class="form-control input-lg text-center" id="username" name="username" placeholder="用户名或邮箱" style="background-color:#ffffff;" type="text">
-                  </div>
-                  <div class="form-group">
-                      <input class="form-control input-lg text-center" id="password" name="password" placeholder="密码" type="password">
-                  </div>
+                    <div id="sign-in">
+                        <span id="flash" style="color:#800000;" hidden></span>
+                      <div class="form-group">
+                          <input class="form-control input-lg text-center" id="username" name="username" placeholder="用户名或邮箱" style="background-color:#ffffff;" type="text">
+                      </div>
+                      <div class="form-group">
+                          <input class="form-control input-lg text-center" id="password" name="password" placeholder="密码" type="password">
+                      </div>
 
-                  <div id="div-vercode" class="form-group" hidden>
+                      <div id="div-vercode" class="form-group" hidden>
                           <div class="form-inline">
-                          <input id="code-url"  name="code-url" value="" hidden>
-                          <input class="form-control input-lg text-center pull-left" id="vercode"  style="display:inline-block;vertical-align:middle;" name="vercode" placeholder="验证码" style="background-color:#ffffff;" type="text" value="">
-                           &nbsp;
-                          <p class="hidden-md hidden-lg"></p>
-                          <img onclick="get_vercode()" id="code-img" src="" style="cursor:pointer;vertical-align:middle;" width="140px" height="45px" alt="验证码.换一张" title="看不清.换一张"/>
-                          <small class="hidden-md hidden-lg" onclick="get_vercode()">Can't see?In a</small>
-                     </div>
-                  </div>
+                              <input id="code-url"  name="code-url" value="" hidden>
+                              <input class="form-control input-lg text-center pull-left" id="vercode"  style="display:inline-block;vertical-align:middle;" name="vercode" placeholder="验证码" style="background-color:#ffffff;" type="text" value="">
+                               &nbsp;
+                              <p class="hidden-md hidden-lg"></p>
+                              <img onclick="get_vercode()" id="code-img" src="" style="cursor:pointer;vertical-align:middle;" width="140px" height="45px" alt="验证码.换一张" title="看不清.换一张"/>
+                              <small class="hidden-md hidden-lg" onclick="get_vercode()">Can't see?In a</small>
+                          </div>
+                      </div>
 
-                <div class="checkbox i-checks m-b">
-                    <label>
-                      <small class="pull-left">
-                          <input id="remember_me" name="remember_me" type="checkbox" value="y"><i></i>Remember the login
-                      </small>
-                      <small class="pull-right">
-                          <a href="/accounts/retrieve-password">Forgot password?</a>
-                      </small>
-                    </label>
-                </div>
-                    {% if view_data.login_type == 'c' %}
-                        <input onclick="sign_in('adm')"  class="btn btn-lg btn-block" type="button" id="submit" name="submit" style="background-color:#131916;color:#E9EFE9;"  value="Sign in">
-                    {% else %}
-                        <input onclick="sign_in('user')"  class="btn btn-lg btn-block" type="button" id="submit" name="submit" style="background-color:#131916;color:#E9EFE9;"  value="Sign in">
-                    {% endif %}
-                </div>
+                    <div class="checkbox i-checks m-b">
+                        <label>
+                          <small class="pull-left">
+                              <input id="remember_me" name="remember_me" type="checkbox" value="y"><i></i>Remember the login
+                          </small>
+                          <small class="pull-right">
+                              <a href="/accounts/retrieve-password">Forgot password?</a>
+                          </small>
+                        </label>
+                    </div>
+                        {% if view_data.login_type == 'c' %}
+                            <input onclick="sign_in('adm')"  class="btn btn-lg btn-block" type="button" id="submit" name="submit" style="background-color:#131916;color:#E9EFE9;"  value="Sign in">
+                        {% else %}
+                            <input onclick="sign_in('user')"  class="btn btn-lg btn-block" type="button" id="submit" name="submit" style="background-color:#131916;color:#E9EFE9;"  value="Sign in">
+                        {% endif %}
+                    </div>
 
                   {% if view_data.login_type == 'f' %}
                       <div class="checkbox i-checks m-b">
@@ -124,6 +101,7 @@
                       </a>
                   </div>
                 </div>
+
                 <!-- /Project Information -->
 
             </div>
@@ -137,4 +115,19 @@
 <br><br>
 {% include "osnoob-cms/base/footer_sign.html" %}
 {% include "osnoob-cms/base/footer_js.html" %}
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('siteCtrl', function($scope, $http) {
+      $http.post('postData.php', postData,config).
+                success(function(data) {
+                    console.log(data);
+                }).
+                error(function(err) {
+
+                });
+    });
+</script>
+
 </body>
+</html>

@@ -1,0 +1,27 @@
+/*controls*/
+.os-controls {
+	display: table;
+	table-layout: fixed;
+	text-align: center;
+	border-spacing: 0;
+	width: 100%;
+}
+
+
+.os-controls > div{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	width: 40px;
+	height: 40px;
+}
+
+.os-il-ct-a{
+	cursor: pointer;
+	display: inline-block;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+}

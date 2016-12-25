@@ -1,0 +1,134 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "admin-pages/base/base_c.html" %}
+{% block content %}
+
+<section class="vbox">
+    <section class="scrollable padder">
+      <section class="panel panel-default">
+        <header class="panel-heading">
+          {{view_data.page_name}}
+            &nbsp;&nbsp;<span style="color:#1ab667;">共发表:{{view_data.post_count}}</span>
+            &nbsp;&nbsp;<span style="color:#e25b29;">今日:{{view_data.post_count_d}}</span>
+            &nbsp;&nbsp;<span style="color:#eac724;">近7天:{{view_data.post_count_7d}}</span>
+            &nbsp;&nbsp;<span style="color:#1d2993;">近30天:{{view_data.post_count_30d}}</span>
+            (不包括草稿,未通过,回收站)
+        </header>
+        <div class="row wrapper">
+          <div class="col-sm-6">
+                <form ACTION method="GET">
+                <div class="col-sm-4 hidden-xs">
+                    {{form_s.q(class="input-sm form-control input-s-sm inline v-middle")}}
+                    {{form_s.submit(class="btn btn-sm btn-default")}}
+                </div>
+                </form>
+          </div>
+          <div class="col-sm-6">
+               <form action method="GET">
+                   {{form.q(value=view_data.state)}}
+                 <div class="col-sm-9 m-b-xs">
+                    {{form.search_value(class="input-sm form-control", placeholder="搜索...")}}
+                  </div>
+                 <div class="col-sm-3 m-b-xs">
+                    {{form.submit(class="btn btn-sm btn-default")}}
+                  </div>
+              </form>
+          </div>
+        </div>
+        <div class="table-responsive" >
+             {% include "admin-pages/base/flash.html" %}
+          <form ACTION="{{url_for('admin.delete_post')}}" method="POST">
+          <table class="table table-striped b-t b-light">
+            <thead>
+              <tr>
+                <th style="width:20px;"><label class="checkbox m-n i-checks">{{ form_del.boolean }}<i></i></label></th>
+                <th class="th-sortable" data-toggle="class">标题
+                  <span class="th-sort">
+                    <i class="fa fa-sort-down text"></i>
+                    <i class="fa fa-sort-up text-active"></i>
+                    <i class="fa fa-sort"></i>
+                  </span>
+                </th>
+                <th>作者</th>
+                <th>类型</th>
+                <th>发表时间</th>
+                <th>更新时间</th>
+                  <th>阅读</th>
+                  <th>评论</th>
+                  <th>赞</th>
+              </tr>
+            </thead>
+
+            {% for post in view_data.posts %}
+
+              <tr>
+                <td><label class="checkbox m-n i-checks">{{ form_del.boolean(value=post._id) }}<i></i></label></td>
+                <td>
+                    {% if post.status == 1 %}
+                        <a href="{{url_for('post.show', post_id=post._id)}}" target="_blank">{{post.title}}</a>
+                    {% else %}
+                        <a href="{{url_for('post.preview', post_id=post._id)}}" target="_blank">{{post.title}}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{url_for('people.user', id=post.user_id)}}" target="_blank">{{post.username}}</a>
+                </td>
+                <td>
+                    <a href="{{url_for('post.post_type',type=post.type)}}" target="_blank" style="color:#1ab667;">{{post.type}}</a>
+                </td>
+                <td value="{{post.time}}" unix-time>{{post.time}}</td>
+                <td value="{{post.update_time}}" unix-time>{{post.update_time}}</td>
+                <td>{{post.pv}}</td>
+                <td>{{post.comment_cnt}}</td>
+                <td>{{post.praise}}</td>
+
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
+        <footer class="panel-footer">
+          <div class="row">
+              <div class="col-sm-3 m-b-xs">
+              {{ form_del.csrf_token }}
+                  {{form_del.q(value=view_data.state)}}
+                  {{form_del.op_type(class="input-sm form-control input-s-sm inline v-middle")}}
+                  {{form_del.submit(class="btn btn-sm btn-default")}}
+               </div>
+            <div class="col-sm-4 text-center">
+              <small class="text-muted inline m-t-sm m-b-sm">Noobw文章管理</small>
+            </div>
+          </div>
+            <div class="row"">
+                <!-- 分页 -->
+                <div class="text-center m-t-lg m-b-lg">
+                  <ul class="pagination pagination-md">
+                      <li><a href="{{url_for('admin.posts_management', page=view_data.l_page,q=view_data.state)}}" class="active"><i class="fa fa-chevron-left"></i></a></li>
+                      {% for p in view_data.l_show_num %}
+                          {% if p == '...' %}
+                              <li><a href="#">{{p}}</a></li>
+                          {% else %}
+                              <li><a href="{{url_for('admin.posts_management', page=p,q=view_data.state)}}">{{p}}</a></li>
+                          {% endif %}
+                      {% endfor %}
+
+                      <li class="active"><a href="#" class="active">{{view_data.page_num}}</a></li>
+
+                      {% for p in view_data.n_show_num %}
+                          {% if p == '...' %}
+                              <li><a href="#">{{p}}</a></li>
+                          {% else %}
+                              <li><a href="{{url_for('admin.posts_management', page=p,q=view_data.state)}}">{{p}}</a></li>
+                          {% endif %}
+                      {% endfor %}
+
+                      <li><a href="{{url_for('admin.posts_management', page=view_data.n_page,q=view_data.state)}}"  class="active"><i class="fa fa-chevron-right"></i></a></li>
+                  </ul>
+                </div>
+                <!-- //分页 -->
+          </div>
+        </footer>
+          </form>
+      </section>
+    </section>
+    </section>
+
+{% endblock %}

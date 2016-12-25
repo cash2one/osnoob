@@ -5,7 +5,7 @@ import sys
 import time
 from werkzeug.security import generate_password_hash
 from apps import mdb_user, create_app, mdb_cont
-from apps.config import config
+from apps.config import config, Permission
 from apps.user.models.user import user_model
 
 __author__ = 'all.woo'
@@ -61,7 +61,7 @@ def site_init():
         mdb_user.db.create_collection("user")
     except:
         pass
-    role_root = mdb_user.db.role.find_one({"permissions":config["permission"].ROOT})
+    role_root = mdb_user.db.role.find_one({"permissions":Permission.ROOT})
     if not role_root:
         _id = mdb_user.db.role.insert({
             "name":"Root",
@@ -93,9 +93,9 @@ def site_init():
         mdb_user.db.user_profile.insert(user_profile)
 
         # article type
-        mdb_cont.db.article_type.insert({'user_id':user_id, 'type':[]})
+        mdb_cont.db.type.insert({'user_id':user_id, 'type':[]})
         # article tag
-        mdb_cont.db.article_tag.insert({'user_id':user_id, 'tag':[]})
+        mdb_cont.db.tag.insert({'user_id':user_id, 'tag':[]})
 
     # ensureIndex
     print("Ensure index")

@@ -1,0 +1,75 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "admin-pages/base/base_c.html" %}
+{% block content %}
+
+<section class="vbox">
+    <section class="scrollable padder">
+      <section class="panel panel-default">
+        <header class="panel-heading">
+          {{view_data.page_name}}&nbsp;&nbsp;
+            <a href="{{url_for('admin.type_add')}}">
+                <span class="btn btn-green fileinput-button">
+                  <i class="fa fa-plus"></i>
+                   <span>添加</span>
+                </span>
+            </a>
+        </header>
+        <div class="table-responsive" >
+             {% include "admin-pages/base/flash.html" %}
+          <form ACTION="{{url_for('admin.delete_type')}}" method="POST">
+          <table class="table table-striped b-t b-light">
+            <thead>
+              <tr>
+                <th style="width:20px;"><label class="checkbox m-n i-checks">{{ form_del.boolean }}<i></i></label></th>
+                <th class="th-sortable" data-toggle="class">项目
+                <th class="th-sortable" data-toggle="class">种类
+                  <span class="th-sort">
+                    <i class="fa fa-sort-down text"></i>
+                    <i class="fa fa-sort-up text-active"></i>
+                    <i class="fa fa-sort"></i>
+                  </span>
+                </th>
+                <th>值</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            {% for t in view_data.types %}
+
+              <tr>
+                <td><label class="checkbox m-n i-checks">{{ form_del.boolean(value=t._id) }}<i></i></label></td>
+                <td width="20%">
+                   {{t.project}}
+                </td>
+                <td width="20%">
+                   {{t.subject}}
+                </td>
+                <td width="45%">
+                    {{t.type}}
+                </td>
+                <td>
+                    <a href="{{url_for('admin.type_edit',id=t._id)}}">编辑</a>
+                </td>
+              </tr>
+              {% endfor %}
+          </table>
+        </div>
+        <footer class="panel-footer">
+          <div class="row">
+              <div class="col-sm-3 m-b-xs">
+              {{ form_del.csrf_token }}
+                  {{form_del.q(value=view_data.state)}}
+                  {{form_del.op_type(class="input-sm form-control input-s-sm inline v-middle")}}
+                  {{form_del.submit(class="btn btn-sm btn-default")}}
+               </div>
+            <div class="col-sm-4 text-center">
+              <small class="text-muted inline m-t-sm m-b-sm">NoobwPost类型管理</small>
+            </div>
+          </div>
+        </footer>
+          </form>
+      </section>
+    </section>
+    </section>
+
+{% endblock %}

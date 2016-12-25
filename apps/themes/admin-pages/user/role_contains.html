@@ -1,0 +1,152 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "admin-pages/base/base_c.html" %}
+{% block content %}
+
+<section class="vbox">
+    <section class="scrollable padder">
+      <form class="panel panel-default">
+        <header class="panel-heading">
+          角色:{{view_data.page_name}}
+        </header>
+        <div class="row wrapper">
+           <div class="col-sm-2 m-b-xs">
+
+          </div>
+          <div class="col-sm-3 m-b-xs">
+
+          </div>
+          <div class="col-sm-4">
+            <div class="input-group">
+               <form action method="GET">
+                 <div class="col-sm-9 m-b-xs">
+                    {{form.search_value(class="input-sm form-control", placeholder="搜索...")}}
+                  </div>
+                 <div class="col-sm-3 m-b-xs">
+                    {{form.submit(class="btn btn-sm btn-default")}}
+                  </div>
+              </form>
+            </div>
+          </div>
+          <form ACTION="{{url_for('admin.delete_user')}}" method="POST">
+              <div class="col-sm-3 m-b-xs">
+              {{ form_del.csrf_token }}
+                {{ form_del.action(value="delete") }}
+                {{ form_del.submit(value="删除", class="btn btn-danger margin-bottom-20") }}
+               </div>
+        </div>
+        {% include "admin-pages/base/flash.html" %}
+        <div class="table-responsive">
+          <table class="table table-striped b-t b-light">
+            <thead>
+              <tr>
+                <th style="width:20px;"><label class="checkbox m-n i-checks">{{ form_del.boolean }}<i></i></label></th>
+                <th class="th-sortable" data-toggle="class">用户名
+                  <span class="th-sort">
+                    <i class="fa fa-sort-down text"></i>
+                    <i class="fa fa-sort-up text-active"></i>
+                    <i class="fa fa-sort"></i>
+                  </span>
+                </th>
+                <th>邮箱</th>
+                <th>角色</th>
+                <th>状态</th>
+                  <th>注册时间</th>
+                  <th>更新时间</th>
+                  <th>操作</th>
+
+              </tr>
+            </thead>
+
+               <tbody>
+            {% for user in view_data.user_list %}
+
+              <tr>
+                <td><label class="checkbox m-n i-checks">{{ form_del.boolean(value=user._id) }}<i></i></label></td>
+                <td>{{user.username}}</td>
+                <td>{{user.email}}</td>
+                <td>{{user.role_id}}</td>
+                <td>
+                 {% if user.active %}
+                    <a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a>
+                {% else%}
+                   <a href="#" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a>
+                {%endif%}
+                </td>
+                <td value="{{user.create_at}}" unix-time>{{user.create_at}}</td>
+                <td value="{{user.create_at}}" unix-time>{{user.update_at}}</td>
+              　<td>
+                  <table>
+                      <a class="" href="{{url_for('admin.edit_profile_admin',id=user._id)}}" style="padding-right: 10px">
+                          <button type="button" class="btn btn-warning margin-bottom-20">编辑</button>
+                      </a>
+                        <a class="" href="{{url_for('admin.password_reset_admin',id=user._id)}}" style="padding-right: 10px">
+                            <button type="button" class="btn btn-danger margin-bottom-20">密码设置</button>
+                        </a>
+                   </table>
+
+              　</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </form>
+
+        <footer class="panel-footer">
+          <div class="row">
+            <div class="col-sm-4 hidden-xs">
+              <select class="input-sm form-control input-s-sm inline v-middle">
+                <option value="0">无</option>
+              </select>
+              <button class="btn btn-sm btn-default">应用</button>
+            </div>
+            <div class="col-sm-4 text-center">
+              <small class="text-muted inline m-t-sm m-b-sm">角色:{{view_data.page_name}}</small>
+            </div>
+
+              <!-- page-->
+             <div class="text-center m-t-lg m-b-lg">
+
+              <ul id="page_nav" class="pagination pagination-md">
+                  <li >
+                      <a href="{{url_for('admin.user_management',page=view_data.pagination.l_page, q='using')}}">Last</a>
+                  </li>
+                  {% for p in view_data.pagination.l_show_num %}
+                      {% if p == pagination.page_num %}
+                          <li class="active">
+                              <a href="{{url_for('admin.user_management',page=p, q='using')}}">{{p}}</a>
+                          </li>
+                      {% else %}
+                          <li >
+                              <a href="{{url_for('admin.user_management',page=p, q='using')}}">{{p}}</a>
+                          </li>
+                      {% endif %}
+                  {% endfor %}
+                    <li class="active">
+                              <a>{{view_data.pagination.page_num}}</a>
+                          </li>
+                  {% for p in view_data.pagination.n_show_num %}
+                      {% if p == pagination.page_num %}
+                          <li class="active">
+                              <a href="{{url_for('admin.user_management',page=p, q='using')}}">{{p}}</a>
+                          </li>
+                      {% else %}
+                          <li >
+                              <a href="{{url_for('admin.user_management',page=p, q='using')}}">{{p}}</a>
+                          </li>
+                      {% endif %}
+                  {% endfor %}
+                  <li >
+                      <a href="{{url_for('admin.user_management',page=view_data.pagination.n_page, q='using')}}">Next</a>
+                  </li>
+              </ul>
+            </div>
+            <!--page// -->
+
+          </div>
+        </footer>
+      </section>
+    </section>
+    </section>
+
+{% endblock %}

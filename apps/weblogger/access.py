@@ -56,34 +56,37 @@ class logger(Config):
             file_handler.suffix = "%Y-%m-%d"
             # According to the size
             #file_handler = RotatingFileHandler(filename, maxBytes=10*1024*1024,backupCount=5)
-            file_handler.setLevel(config['weblogger'].MORMAL_LEVEL)
+            file_handler.setLevel(config['weblogger'].NORMAL_LEVEL)
             file_handler.setFormatter(formatter)
 
             logging.getLogger('r_log').addHandler(file_handler)
-            logging.getLogger('r_log').setLevel(config['weblogger'].MORMAL_LEVEL)
+            logging.getLogger('r_log').setLevel(config['weblogger'].NORMAL_LEVEL)
 
 
             # Access to information-------------------------------------------------------------------------------------
             @app.before_request
             def before_request():
-
-                g.user = current_user
-                g.log = {}
+                global sys_weblog
+                sys_weblog = {}
+                sys_weblog['user'] = current_user
+                sys_weblog['log'] = {}
                 st = datetime.utcnow()
-                g.log['request_id'] = "{}{}".format(time.mktime(datetime.timetuple(st)),randint(1, 1000000))
-                g.log['st'] = time.mktime(datetime.timetuple(st))*1000 + st.microsecond/1000
-                g.log['ip'] = request.remote_addr
-                g.log['url'] = request.url
-                if not g.user.is_anonymous:
-                    g.log['user_id'] = g.user.id
+
+                sys_weblog['log']['request_id'] = "{}{}".format(time.mktime(datetime.timetuple(st)),randint(1, 1000000))
+                sys_weblog['log']['st'] = time.mktime(datetime.timetuple(st))*1000 + st.microsecond/1000
+                sys_weblog['log']['ip'] = request.remote_addr
+                sys_weblog['log']['url'] = request.url
+                g.request_id = sys_weblog['log']['request_id']
+                if not sys_weblog['user'].is_anonymous:
+                    sys_weblog['user']['user_id'] = g.user.id
 
 
             @app.teardown_request
             def teardown_request(exception):
                 et = datetime.utcnow()
                 try:
-                    g.log['et'] = time.mktime(datetime.timetuple(et))*1000 + et.microsecond/1000
-                    g.log['u_t_m'] = g.log['et'] - g.log['st']
+                    sys_weblog['log']['et'] = time.mktime(datetime.timetuple(et))*1000 + et.microsecond/1000
+                    sys_weblog['log']['u_t_m'] = g.log['et'] - g.log['st']
                     logging.getLogger("r_log").info(g.log)
                     if exception:
                         logging.getLogger("err_log").exception("Exception")

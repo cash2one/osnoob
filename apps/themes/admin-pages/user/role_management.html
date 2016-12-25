@@ -1,0 +1,139 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "admin-pages/base/base_c.html" %}
+{% block content %}
+
+<section class="vbox">
+    <section class="scrollable padder">
+      <section class="panel panel-default">
+        <header class="panel-heading">
+          {{view_data.page_name}}
+        </header>
+        <div class="row wrapper">
+           <div class="col-sm-2 m-b-xs">
+            <a href="{{url_for('admin.add_role')}}">
+                <span class="btn btn-green fileinput-button">
+                  <i class="fa fa-plus"></i>
+                   <span>添加角色</span>
+                </span>
+            </a>
+          </div>
+            <div class="col-sm-2 m-b-xs"></div>
+          <div class="col-sm-4 m-b-xs">
+            <div class="input-group">
+               <form action method="GET">
+                 <div class="col-sm-9 m-b-xs">
+                    {{form.search_value(class="input-sm form-control", placeholder="搜索...")}}
+                  </div>
+                 <div class="col-sm-3 m-b-xs">
+                    {{form.submit(class="btn btn-sm btn-default")}}
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% include "admin-pages/base/flash.html" %}
+        <div class="table-responsive">
+          <table class="table table-striped b-t b-light">
+            </thead>
+                  <thead>
+                    <tr><th style="width:20px;"><label class="checkbox m-n i-checks"><input type="checkbox"><i></i></label>
+
+                </th>
+                      <th><span style="color:#2E8B57">角色</span></th>
+                      <th><span style="color:#2E8B57">权重</span></th>
+                      <th><span style="color:#2E8B57">默认</span></th>
+                        <th><span style="color:#2E8B57">说明</span></th>
+                        <th><span style="color:#2E8B57">操作</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  {% for role in view_data.role_list %}
+
+                    <tr>
+                        <td><label class="checkbox m-n i-checks"><input type="checkbox" name="post[]"><i></i></label></td>
+                      <td><span style="color:#2F4F4F">{{role.name}}</span></td>
+                      <td><span style="color:#2F4F4F">{{role.permissions}}</span></td>
+                      <td>
+                          {% if role.default %}
+                            <a href="#" class="active" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a>
+                          {% else%}
+                               <a href="#" data-toggle="class"><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a>
+                          {%endif%}
+                      </td>
+                        <td>
+                            <span style="color:#2F4F4F">{{role.instructions}}</span>
+                        </td>
+                        <td>
+                            <table>
+                                <a href="{{url_for('admin.edit_role',id=role._id)}}">
+                                    <button type="button" class="btn btn-warning margin-bottom-20">编辑</button>
+                                </a>
+                                <a href="{{url_for('admin.role_contains',id=role._id)}}">
+                                    <button type="button" class="btn btn-success margin-bottom-20">包括的用户</button>
+                                </a>
+                            </table>
+                        </td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+          </table>
+        </div>
+
+
+        <footer class="panel-footer">
+          <div class="row">
+            <div class="col-sm-4 hidden-xs">
+              <select class="input-sm form-control input-s-sm inline v-middle">
+                <option value="0">无</option>
+              </select>
+              <button class="btn btn-sm btn-default">应用</button>
+            </div>
+            <div class="col-sm-4 text-center">
+              <small class="text-muted inline m-t-sm m-b-sm">Noobw权限管理</small>
+            </div>
+            <!-- page-->
+             <div class="text-center m-t-lg m-b-lg">
+
+              <ul id="page_nav" class="pagination pagination-md">
+                  <li >
+                      <a href="{{url_for('admin.role_management',page=view_data.pagination.l_page, q='using')}}">Last</a>
+                  </li>
+                  {% for p in view_data.pagination.l_show_num %}
+                      {% if p == pagination.page_num %}
+                          <li class="active">
+                              <a href="{{url_for('admin.role_management',page=p, q='using')}}">{{p}}</a>
+                          </li>
+                      {% else %}
+                          <li >
+                              <a href="{{url_for('admin.role_management',page=p, q='using')}}">{{p}}</a>
+                          </li>
+                      {% endif %}
+                  {% endfor %}
+                    <li class="active">
+                              <a>{{view_data.pagination.page_num}}</a>
+                          </li>
+                  {% for p in view_data.pagination.n_show_num %}
+                      {% if p == pagination.page_num %}
+                          <li class="active">
+                              <a href="{{url_for('admin.role_management',page=p, q='using')}}">{{p}}</a>
+                          </li>
+                      {% else %}
+                          <li >
+                              <a href="{{url_for('admin.role_management',page=p, q='using')}}">{{p}}</a>
+                          </li>
+                      {% endif %}
+                  {% endfor %}
+                  <li >
+                      <a href="{{url_for('admin.role_management',page=view_data.pagination.n_page, q='using')}}">Next</a>
+                  </li>
+              </ul>
+            </div>
+            <!--page// -->
+          </div>
+        </footer>
+      </section>
+    </section>
+    </section>
+
+{% endblock %}

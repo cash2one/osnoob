@@ -1,0 +1,101 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "admin-pages/base/base_c.html" %}
+{% block content %}
+    <section class="vbox bg-white">
+      <header class="header bg-light lter hidden-print">
+        <a href="#" class="btn btn-sm btn-info pull-right" onclick="window.print();">Print</a>
+        <p>版本信息</p>
+      </header>
+      <section class="scrollable wrapper">
+        <i class="fa fa-apple fa fa-3x"></i>
+        <div class="row">
+          <div class="col-xs-6">
+            <h4>Osnoob</h4>
+            <h5>欢迎使用Osnoob cms搭建网站.</h5>
+            <p>官网: <a href="http://www.osnoob.com" style="color:#348FD6">www.osnoob.com</a></p>
+          </div>
+        </div>
+         <p class="m-t m-b">版本: <strong class="label bg-success">1.2</strong><br>
+            日期: <span >2017年2月</span><br>
+            <p>开源协议:</p>
+           <p>Osnoob为开源CMS网站系统, 使用GPL2通用开源协议, 请使用用户遵循GPL2协议, 免费使用.</p>
+            <p>osnoob-cms所有源码均托管于
+              <a href="https://github.com/osnoob/osnoob" style="color:#348FD6">
+              <i class="fa fa-github" style="font-size:25px"></i>Github
+            </a></p>
+           <p>osnoob-cms使用与开发文档请访问: <a href="http://www.osnoob.com" style="color:#348FD6">www.osnoob.com</a></p>
+        </p>
+        <div class="well bg-light b m-t">
+          <div class="row">
+            <div class="col-xs-6">
+              <strong>TO:</strong>
+              <h4>用户</h4>
+              <p>
+                2nd Floor<br>
+                St John Street, Aberdeenshire 2541<br>
+                United Kingdom<br>
+                Phone: 031-432-678<br>
+                Email: admin@osnoob.com<br>
+              </p>
+            </div>
+            <div class="col-xs-6">
+              <strong>SHIP TO:</strong>
+              <h4>John Smith</h4>
+              <p>
+                2nd Floor<br>
+                St John Street, Aberdeenshire 2541<br>
+                United Kingdom<br>
+                Phone: 031-432-678<br>
+                Email: youemail@gmail.com<br>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <h4>主要更新内容</h4>
+        <a href="http://www.osnoob.com" style="color:#348FD6">更多请前往osnoob官网</a>
+        <table class="table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>模块</th>
+              <th>概要</th>
+              <th>作者</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td with="15%">用户打赏</td>
+              <td with="60%">添加用户打赏功能</td>
+              <td>allen woo</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>iPad mini with Wi-Fi 32GB - White &amp; Silver</td>
+              <td>$429.00</td>
+              <td>$858.00</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-right"><strong>Subtotal</strong></td>
+              <td>$1607.00</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-right no-border"><strong>Shipping</strong></td>
+              <td>$0.00</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-right no-border"><strong>VAT Included in Total</strong></td>
+              <td>$0.00</td>
+            </tr>
+            <tr>
+              <td colspan="3" class="text-right no-border"><strong>Total</strong></td>
+              <td><strong>$1607.00</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </section>
+    </section>
+
+{% endblock %}

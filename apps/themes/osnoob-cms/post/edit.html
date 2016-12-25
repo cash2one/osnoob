@@ -1,0 +1,169 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "osnoob-cms/base/base.html" %}
+{% block content %}
+
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='osnoob-cms/static/ueditor/ueditor.config.js') }}?version={{g.version}}"></script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='osnoob-cms/static/ueditor/ueditor.all.min.js') }}?version={{g.version}}"> </script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='osnoob-cms/static/ueditor/lang/zh-cn/zh-cn.js') }}?version={{g.version}}"></script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='osnoob-cms/static/js/noob-post.js') }}?version={{g.version}}"> </script>
+<main class="main-container">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Form -->
+
+
+    <form action  class="form-horizontal" id="post_form" name='post_form'  method="post" enctype="multipart/form-data" role="form">
+        {{ form.csrf_token }}
+    <header class="panel-heading font-bold">
+        {% if view_data.edit %}
+        　　{% if view_data.post.status==3 %}
+            <span style="font-family:'微软雅黑';color:#D3B21;">
+                审核未通过,包含敏感词汇或不合法词汇:<span style="color:#8B0000;">{{view_data.post.info}}</span>
+            </span>
+            {% else %}
+             <span style="font-family:'微软雅黑';">编辑</span>
+
+            {% endif %}
+        {% else %}
+             <span style="font-family:'微软雅黑';">{{view_data.hint}}</span>
+        {% endif %}
+        &nbsp;&nbsp;
+        <a href="{{url_for('post.sys_agr_show', t='编辑帮助', type='帮助')}}"  title="如何插入播放器" style="color:#788188;" >
+            <i class="fa fa-question-circle">帮助</i>
+        </a>
+    </header>
+    <div class="col-md-9 contact-form fadeIn wow">
+        {% include "osnoob-cms/base/flash.html" %}
+        <div class="col-sm-11">
+            <div class="form-group">
+                  {{form.title(class="form-control", placeholder="标题不能为空哦")}}
+            </div>
+            <div class="form-group">
+                {{form.body(class="ckeditor")}}
+            </div>
+         </div>
+    </div>
+
+    <div class="col-md-3 contact-form fadeIn wow">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <input id="submit" hidden>
+                {% if not view_data.edit %}
+                    {{form.issue(class="btn btn-rounded btn-sm btn-success")}}
+                    {{form.draft(class="btn btn-rounded btn-sm btn-dark")}}
+                {% else %}
+                    {% if not view_data.post.status %}
+                        {{form.issue(class="btn btn-rounded btn-sm btn-success")}}
+                        {{form.draft(class="btn btn-rounded btn-sm btn-dark", value="更新草稿")}}
+                    {% else %}
+                        {{form.issue(class="btn btn-rounded btn-sm btn-success", value="更新")}}
+                        {{form.draft(class="btn btn-rounded btn-sm btn-dark", value="转为存稿")}}
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% if view_data.edit %}
+                <div class="form-group">
+                     <h5 class="m-t-lg">标签</h5>
+                    <span style="color:#4cb6cb;">
+                    {% for tag in view_data.post.tag %}
+                        {{tag}} &nbsp;
+                    {% endfor %}
+                    </span>
+
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="btn-group" data-toggle="buttons">
+                    <h5  class="m-t-lg">当前分类</h5>
+                  {{form.s_type(class="form-control m-t parsley-validated")}}
+                </div>
+             </div>
+            <div class="form-group">
+                <div id="tags" class="btn-group" data-toggle="buttons">
+                    <h5 class="m-t-lg">选择标签</h5>
+                    <p>
+                        <span id="flash-c" style="color:#C61818;"></span>
+                        <span id="flash-s" style="color:#14834B"></span>
+                    </p>
+                    {%  for tag in view_data.tag_s %}
+                      <label style="color:#1AB667"　id="{{tag}}" class="btn btn-sm">
+                          {{form.boolean_l(value=tag)}}<i style="color:#1AB667" class="fa fa-check text-active"></i> {{tag}}
+                      </label>
+                    {% endfor %}
+                    {%  for tag in view_data.tag_u %}
+                      <label id="{{tag}}" style="color:#1AB667"　 class="btn btn-sm">
+                          {{form.boolean_l(value=tag)}}<i style="color:#1AB667" class="fa fa-check text-active"></i> {{tag}}
+                      </label>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+             <div class="form-group">
+                 <h5 class="m-t-lg">标签管理</h5>
+                 <span id="flash-a" style="color:#C61818;"></span>
+                     <input class="form-control" id="tag" name="tag" placeholder="多个用 ; 隔开" type="text" value="">
+                    <p></p>
+                     <a style="cursor: pointer;border-color:#1ab667;color:#1ab667;"  onclick="add_tag()"  class="btn btn-sm">添加</a>
+                    <a style="cursor: pointer;border-color:#C61818;color:#C61818" class="btn btn-sm" onclick="del_tag()" >删除已选标签</a>
+             </div>
+        </div>
+    </div>
+    </form>
+</div></div></main>
+
+<script id="editor" type="text/plain">
+    分享你的知识世界吧！
+</script>
+{% if g.tn == "pc" %}
+    {% if current_user.can(view_data.permission) %}
+        <script type="text/javascript">
+            //实例化编辑器
+            //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+            var ue = UE.getEditor('body', {
+                serverUrl: "/upload/",
+            });
+        </script>
+    {% else %}
+       <script type="text/javascript">
+            //普通用户
+            //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+            var ue = UE.getEditor('body', {
+                serverUrl: "/upload/",
+                  toolbars:[[
+                'fullscreen', 'undo', 'redo','bold', 'strikethrough','fontfamily', 'fontsize',
+                'justifyleft', 'justifycenter', 'justifyright', 'link', 'unlink',
+                'simpleupload', 'insertimage',  'formatmatch','pagebreak', 'horizontal', 'spechars',
+                'inserttable', 'deletetable', 'searchreplace', 'drafts','map','preview', 'insertcode',
+                ]],
+            });
+        </script>
+    {%  endif%}
+{% else %}
+    {% if current_user.can(view_data.permission) %}
+       <script type="text/javascript">
+            //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+            var ue = UE.getEditor('body', {
+                serverUrl: "/upload/",
+                toolbars: [[
+                'bold','simpleupload','justifyleft', 'justifycenter', 'justifyright','drafts','source','fullscreen',
+            ]],
+            });
+        </script>
+    {% else %}
+         <script type="text/javascript">
+            //普通用户
+            //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+            var ue = UE.getEditor('body', {
+                serverUrl: "/upload/",
+                toolbars: [[
+                'bold','simpleupload','justifyleft', 'justifycenter', 'justifyright','drafts','fullscreen',
+                ]]
+            });
+        </script>
+    {%  endif%}
+
+{% endif %}
+
+{% endblock %}

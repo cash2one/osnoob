@@ -1,0 +1,221 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "admin-pages/base/base_c.html" %}
+{% block content %}
+          <section class="vbox">
+            <section class="scrollable padder">
+              <div class="m-b-md">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <h3 class="m-b-none">Charts</h3>
+                    <small>Statistics &amp; graph information</small>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="text-right text-left-xs">
+                      <div class="sparkline m-l m-r-lg pull-right" data-type="bar" data-height="35" data-bar-width="6" data-bar-spacing="2" data-bar-color="#fff"><canvas width="86" height="35" style="display: inline-block; width: 86px; height: 35px; vertical-align: top;"></canvas></div>
+                      <div class="m-t-md">
+                        <span class="text-uc">New post</span>
+                        <div class="h4 m-n"><strong>{{view_data.post_cnt}}</strong></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <section class="panel panel-default">
+                <header class="panel-heading font-bold">Site statistics</header>
+                <div class="panel-body">
+                  <div id="flot-1ine" style="height: 250px; padding: 0px; position: relative;"><canvas class="flot-base" width="2006" height="500" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 1003px; height: 250px;"></canvas><div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 15px; text-align: center;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 104px; text-align: center;">1</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 193px; text-align: center;">2</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 281px; text-align: center;">3</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 370px; text-align: center;">4</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 459px; text-align: center;">5</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 548px; text-align: center;">6</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 637px; text-align: center;">7</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 726px; text-align: center;">8</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 814px; text-align: center;">9</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 900px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 83px; top: 233px; left: 989px; text-align: center;">11</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 220px; left: 7px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 176px; left: 7px; text-align: right;">5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 132px; left: 1px; text-align: right;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 88px; left: 1px; text-align: right;">15</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 44px; left: 1px; text-align: right;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 1px; text-align: right;">25</div></div></div><canvas class="flot-overlay" width="2006" height="500" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 1003px; height: 250px;"></canvas></div>
+                </div>
+                <footer class="panel-footer bg-white">
+                  <div class="row text-center no-gutter">
+                    <div class="col-xs-3 b-r b-light">
+                      <p class="h3 font-bold m-t">{{view_data.user_cnt}}</p>
+                      <p class="text-muted">Orders</p>
+                    </div>
+                    <div class="col-xs-3 b-r b-light">
+                      <p class="h3 font-bold m-t">10,450</p>
+                      <p class="text-muted">Sellings</p>
+                    </div>
+                    <div class="col-xs-3 b-r b-light">
+                      <p class="h3 font-bold m-t">21,230</p>
+                      <p class="text-muted">Items</p>
+                    </div>
+                    <div class="col-xs-3">
+                      <p class="h3 font-bold m-t">7,230</p>
+                      <p class="text-muted">Customers</p>
+                    </div>
+                  </div>
+                </footer>
+              </section>
+              <div class="row">
+                <div class="col-md-6">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Multiple</header>
+                    <div class="panel-body">
+                      <div id="flot-chart" style="height: 240px; padding: 0px; position: relative;"><canvas class="flot-base" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 14px; text-align: center;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 88px; text-align: center;">1</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 163px; text-align: center;">2</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 237px; text-align: center;">3</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 311px; text-align: center;">4</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 386px; text-align: center;">5</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 460px; text-align: center;">6</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 211px; left: 6px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 181px; left: 6px; text-align: right;">5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 151px; left: 0px; text-align: right;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 121px; left: 0px; text-align: right;">15</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 90px; left: 0px; text-align: right;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 60px; left: 0px; text-align: right;">25</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 30px; left: 0px; text-align: right;">30</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 0px; text-align: right;">35</div></div></div><canvas class="flot-overlay" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><div class="legend"><div style="position: absolute; width: 79px; height: 32px; top: 13px; right: 13px; opacity: 0.85; background-color: rgb(255, 255, 255);"> </div><table style="position:absolute;top:13px;right:13px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(27,179,153);overflow:hidden"></div></div></td><td class="legendLabel">Unique Visits</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(23,123,187);overflow:hidden"></div></div></td><td class="legendLabel">Page Views</td></tr></tbody></table></div></div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-md-6">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Real-time update</header>
+                    <div class="panel-body">
+                      <div id="flot-live" style="height: 240px; padding: 0px; position: relative;"><canvas class="flot-base" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 224px; left: 12px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 179px; left: 6px; text-align: right;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 134px; left: 6px; text-align: right;">40</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 90px; left: 6px; text-align: right;">60</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 45px; left: 6px; text-align: right;">80</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 0px; text-align: right;">100</div></div></div><canvas class="flot-overlay" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas></div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Vertical bar</header>
+                    <div class="panel-body">
+                      <div id="flot-bar" style="height: 240px; padding: 0px; position: relative;"><canvas class="flot-base" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 52px; top: 224px; left: 39px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 52px; top: 224px; left: 105px; text-align: center;">15</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 52px; top: 224px; left: 171px; text-align: center;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 52px; top: 224px; left: 237px; text-align: center;">25</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 52px; top: 224px; left: 303px; text-align: center;">30</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 52px; top: 224px; left: 369px; text-align: center;">35</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 52px; top: 224px; left: 435px; text-align: center;">40</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 211px; left: 12px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 169px; left: 6px; text-align: right;">25</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 127px; left: 6px; text-align: right;">50</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 84px; left: 6px; text-align: right;">75</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 42px; left: 0px; text-align: right;">100</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 0px; text-align: right;">125</div></div></div><canvas class="flot-overlay" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><div class="legend"><div style="position: absolute; width: 61px; height: 48px; right: 13px; opacity: 0.85; background-color: rgb(255, 255, 255);"> </div><table style="position:absolute;right:13px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid none;padding:1px"><div style="width:4px;height:0;border:5px solid #6783b7;overflow:hidden"></div></div></td><td class="legendLabel">Product 1</td></tr><tr><td class="legendColorBox"><div style="border:1px solid none;padding:1px"><div style="width:4px;height:0;border:5px solid #4fcdb7;overflow:hidden"></div></div></td><td class="legendLabel">Product 2</td></tr><tr><td class="legendColorBox"><div style="border:1px solid none;padding:1px"><div style="width:4px;height:0;border:5px solid #8dd168;overflow:hidden"></div></div></td><td class="legendLabel">Product 3</td></tr></tbody></table></div></div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-md-6">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Horizontal bar</header>
+                    <div class="panel-body">
+                      <div id="flot-bar-h" style="height: 240px; padding: 0px; position: relative;"><canvas class="flot-base" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);"><div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 23px; text-align: center;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 93px; text-align: center;">20</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 165px; text-align: center;">40</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 238px; text-align: center;">60</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 311px; text-align: center;">80</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 380px; text-align: center;">100</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 67px; top: 224px; left: 453px; text-align: center;">120</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 211px; left: 6px; text-align: right;">7.5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 176px; left: 0px; text-align: right;">10.0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 141px; left: 0px; text-align: right;">12.5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 106px; left: 0px; text-align: right;">15.0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 70px; left: 0px; text-align: right;">17.5</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 35px; left: 0px; text-align: right;">20.0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 0px; text-align: right;">22.5</div></div></div><canvas class="flot-overlay" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><div class="legend"><div style="position: absolute; width: 61px; height: 48px; right: 14px; opacity: 0.85; background-color: rgb(255, 255, 255);"> </div><table style="position:absolute;right:14px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid none;padding:1px"><div style="width:4px;height:0;border:5px solid #6783b7;overflow:hidden"></div></div></td><td class="legendLabel">Product 1</td></tr><tr><td class="legendColorBox"><div style="border:1px solid none;padding:1px"><div style="width:4px;height:0;border:5px solid #4fcdb7;overflow:hidden"></div></div></td><td class="legendLabel">Product 2</td></tr><tr><td class="legendColorBox"><div style="border:1px solid none;padding:1px"><div style="width:4px;height:0;border:5px solid #8dd168;overflow:hidden"></div></div></td><td class="legendLabel">Product 3</td></tr></tbody></table></div></div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Pie Chart</header>
+                    <div class="panel-body">
+                      <div id="flot-pie" style="height: 240px; padding: 0px; position: relative;"><canvas class="flot-base" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><canvas class="flot-overlay" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><span class="pieLabel" id="pieLabel0" style="position: absolute; top: 70px; left: 308px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(101,181,194);">iPhone5S<br>40%</div></span><span class="pieLabel" id="pieLabel1" style="position: absolute; top: 200px; left: 242.5px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(77,167,193);">iPad Mini<br>10%</div></span><span class="pieLabel" id="pieLabel2" style="position: absolute; top: 185px; left: 133px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(57,147,187);">iPad Mini Retina<br>20%</div></span><span class="pieLabel" id="pieLabel3" style="position: absolute; top: 96px; left: 107px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(46,123,173);">iPhone4S<br>12%</div></span><span class="pieLabel" id="pieLabel4" style="position: absolute; top: 15px; left: 159.5px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(35,100,158);">iPad Air<br>18%</div></span></div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-md-6">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Donut pie</header>
+                    <div class="panel-body">
+                      <div id="flot-pie-donut" style="height: 240px; padding: 0px; position: relative;"><canvas class="flot-base" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><canvas class="flot-overlay" width="942" height="480" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 471px; height: 240px;"></canvas><div class="legend"><div style="position: absolute; width: 96px; height: 80px; top: 5px; right: 5px; opacity: 0.85; background-color: rgb(255, 255, 255);"> </div><table style="position:absolute;top:5px;right:5px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(101,181,194);overflow:hidden"></div></div></td><td class="legendLabel">iPhone5S</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(77,167,193);overflow:hidden"></div></div></td><td class="legendLabel">iPad Mini</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(57,147,187);overflow:hidden"></div></div></td><td class="legendLabel">iPad Mini Retina</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(46,123,173);overflow:hidden"></div></div></td><td class="legendLabel">iPhone4S</td></tr><tr><td class="legendColorBox"><div style="border:1px solid #ccc;padding:1px"><div style="width:4px;height:0;border:5px solid rgb(35,100,158);overflow:hidden"></div></div></td><td class="legendLabel">iPad Air</td></tr></tbody></table></div><span class="pieLabel" id="pieLabel0" style="position: absolute; top: 70px; left: 260px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(101,181,194);">iPhone5S<br>40%</div></span><span class="pieLabel" id="pieLabel1" style="position: absolute; top: 200px; left: 194.5px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(77,167,193);">iPad Mini<br>10%</div></span><span class="pieLabel" id="pieLabel2" style="position: absolute; top: 185px; left: 85px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(57,147,187);">iPad Mini Retina<br>20%</div></span><span class="pieLabel" id="pieLabel3" style="position: absolute; top: 96px; left: 59px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(46,123,173);">iPhone4S<br>12%</div></span><span class="pieLabel" id="pieLabel4" style="position: absolute; top: 15px; left: 111.5px;"><div style="font-size:x-small;text-align:center;padding:2px;color:rgb(35,100,158);">iPad Air<br>18%</div></span></div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <section class="panel panel-default">
+                    <header class="panel-heading">Pie</header>
+                    <div class="panel-body text-center">
+                      <div class="sparkline inline" data-type="pie" data-height="154" data-slice-colors="['#1ccacc','#f2f2f2']"><canvas width="154" height="154" style="display: inline-block; width: 154px; height: 154px; vertical-align: top;"></canvas></div>
+                      <div class="line pull-in"></div>
+                      <div class="text-xs">
+                        <i class="fa fa-circle text-info"></i> 60%
+                        <i class="fa fa-circle text-muted"></i> 40%
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-lg-4">
+                  <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Data graph</header>
+                    <div class="bg-light dk wrapper">
+                      <span class="pull-right">Friday</span>
+                      <span class="h4">$540</span>
+                      <div class="text-center m-b-n m-t-sm">
+                          <div class="sparkline" data-type="line" data-height="65" data-width="100%" data-line-width="2" data-line-color="#dddddd" data-spot-color="#bbbbbb" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="3" data-resize="true"><canvas width="293" height="65" style="display: inline-block; width: 293px; height: 65px; vertical-align: top;"></canvas></div>
+                          <div class="sparkline inline" data-type="bar" data-height="45" data-bar-width="6" data-bar-spacing="6" data-bar-color="#1ccc88"><canvas width="150" height="45" style="display: inline-block; width: 150px; height: 45px; vertical-align: top;"></canvas></div>
+                      </div>
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-xs-4">
+                          <small class="text-muted block">Market</small>
+                          <span>$1500.00</span>
+                        </div>
+                        <div class="col-xs-4">
+                          <small class="text-muted block">Referal</small>
+                          <span>$600.00</span>
+                        </div>
+                        <div class="col-xs-4">
+                          <small class="text-muted block">Affiliate</small>
+                          <span>$400.00</span>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <div class="col-lg-4">
+                  <section class="panel panel-default">
+                    <header class="panel-heading">Stacked</header>
+                    <div class="panel-body text-center">
+                      <div class="sparkline inline" data-type="bar" data-height="193" data-bar-width="12" data-bar-spacing="10" data-stacked-bar-color="['#c9d0d7', '#eee']"><canvas width="210" height="193" style="display: inline-block; width: 210px; height: 193px; vertical-align: top;"></canvas></div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <section class="panel panel-default">
+                    <header class="panel-heading">
+                      Conversion
+                    </header>
+                    <div class="panel-body text-center">
+                      <h4>62.5<small> hrs</small></h4>
+                      <small class="text-muted block">Updated at 2 minutes ago</small>
+                      <div class="inline">
+                        <div class="easypiechart easyPieChart" data-percent="75" data-bar-color="#fcc633" data-line-width="16" data-loop="false" data-size="188" style="width: 188px; height: 188px; line-height: 188px;">
+                          <div>
+                            <span class="h2 m-l-sm step">75</span>%
+                            <div class="text text-sm">new</div>
+                          </div>
+                        <canvas width="376" height="376" style="width: 188px; height: 188px;"></canvas></div>
+                      </div>
+                    </div>
+                    <div class="panel-footer"><small>% of avarage rate of the Conversion</small></div>
+                  </section>
+                </div>
+                <div class="col-lg-4">
+                  <section class="panel panel-default">
+                    <header class="panel-heading">
+                      Bounce rate
+                    </header>
+                    <div class="panel-body text-center">
+                      <h4><small>last </small>12<small> hrs</small></h4>
+                      <small class="text-muted block">yesterday: 20%</small>
+                      <div class="inline">
+                        <div class="easypiechart easyPieChart" data-percent="25" data-line-width="6" data-loop="false" data-size="188" style="width: 188px; height: 188px; line-height: 188px;">
+                          <div>
+                            <span class="h2 m-l-sm step">25</span>%
+                            <div class="text text-sm">today</div>
+                          </div>
+                        <canvas width="376" height="376" style="width: 188px; height: 188px;"></canvas></div>
+                      </div>
+                    </div>
+                    <div class="panel-footer"><small>% of change</small></div>
+                  </section>
+                </div>
+                <div class="col-lg-4">
+                  <section class="panel panel-default">
+                    <header class="panel-heading">
+                      New visitors
+                    </header>
+                    <div class="panel-body text-center">
+                      <h4>3,450</h4>
+                      <small class="text-muted block">Worldwide visitors</small>
+                      <div class="inline">
+                        <div class="easypiechart easyPieChart" data-percent="60" data-line-width="10" data-track-color="#eee" data-bar-color="#1ccc88" data-scale-color="#fff" data-size="188" data-line-cap="butt" style="width: 188px; height: 188px; line-height: 188px;">
+                          <div>
+                            <span class="h2 m-l-sm step">60</span>%
+                            <div class="text text-sm">new visits</div>
+                          </div>
+                        <canvas width="376" height="376" style="width: 188px; height: 188px;"></canvas></div>
+                      </div>
+                    </div>
+                    <div class="panel-footer"><small>% of avarage rate of the visits</small></div>
+                  </section>
+                </div>
+              </div>
+            </section>
+          </section>
+
+{% endblock %}
