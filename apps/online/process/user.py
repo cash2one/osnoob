@@ -268,6 +268,7 @@ def p_user(user_id, level=1):
             profile['pay']['alipay'] = {'status':0}
         if not 'wechatpay' in profile['pay']:
             profile['pay']['wechatpay'] = {'status':0}
+    profile["username"] = mdb_user.db.user.find_one({'_id':user_id})["username"]
     return profile
 
 # 用户文章更新统计

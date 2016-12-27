@@ -1,0 +1,25 @@
+<!-- 热门的-->
+  <div class="ncbd">
+    <div class="ncbd-title">
+        <div class="ncbdttxt">推荐</div>
+        <hr>
+    </div>
+    <div class="ncbd-content" >
+        <ul>
+            {% for post in view_data.recommend %}
+
+            <li class="colbd-{{loop.index}}">
+                <a href="{{url_for('post.post_type',type=post.type)}}" class="a-type-re" >
+                    [{{post.type}}]
+                </a>
+                <a href="{{url_for('post.show', post_id=post._id)}}" target="_blank" >
+                    {{post.title}}
+                </a><br>
+                <small class="self-noobw2" style="color:#90BEA6" value="{{post.time}}" unix-time>{{post.time}}</small>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+</div>
+  <!-- ／／热门的-->

@@ -1,0 +1,34 @@
+<!-- post 列表-->
+    {% include "post/base/post_list_script.html" %}
+       <div class="tab-content">
+            <!-- post类型导航-->
+            <div class="group-show">
+                <p id="{{view_data.subject}}" class="get-posts" hidden></p>
+                 <h4 style="color:#1ab667;font-family:'微软雅黑';" >
+                     {{view_data.name}}
+                     <span class="musicbar inline m-l-sm" style="width:20px;height:20px">
+                        <span class="bar1 a1 bg-primary lter"></span>
+                        <span class="bar2 a2 bg-info lt"></span>
+                        <span class="bar3 a3 bg-success"></span>
+                        <span class="bar4 a4 bg-warning dk"></span>
+                        <span class="bar5 a5 bg-danger dker"></span>
+                      </span>
+                 </h4>
+
+            </div>
+            <!-- //post类型导航-->
+           <!--<div class="group-show">-->
+            <!--<img src="http://{{g.imghost}}/adv-home-post-top.jpg')}}" class="img-show-cross" alt="">-->
+
+           <!--</div>-->
+        {% include "post/base/post_list_sha.html" %}
+        <!-- 查看更多-->
+        <a id="n_page" href="{{view_data.n_page}}" hidden></a>
+        <div class="text-center">
+            <a id="more"　 class="btn btn-default" style="border-color:#1ab667;color:#1AB667;" onclick="post_sub_more()">
+                点击查看更多
+            </a>
+        </div>
+    </div>
+        <!-- ／／查看更多-->
+<script src="{{url_for('static', filename='js/post-type.js')}}?version={{g.version}}"></script>

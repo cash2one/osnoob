@@ -1,0 +1,102 @@
+<div class="blog-post">
+        <!-- pc-->
+          <div class="caption">
+            <span class="post-title">
+              <div class="item">
+                  <a href="{{url_for('post.post_type',type=view_data.post.type)}}" style="color:#1ab667;" class="pull-right">[{{view_data.post.type}}]</a>
+                  <h3 class="title" class="post-title">{{view_data.post.title}}</h3>
+              </div>
+            </span>
+              <div class="text-muted">
+                <a href="{{url_for('people.user', id=view_data.post.user_id)}}" class="m-r-sm a-name">
+                     <i class="fa fa-user icon-muted"></i>&nbsp;{{view_data.post.username}}
+                </a>
+                <i class="fa fa-clock-o icon-muted"></i>
+                  <span value=" {{view_data.post.time}}" unix-time> {{view_data.post.time}}</span>
+
+                <a  title="评论" href="#comment-top" class="m-l-sm">
+                  <i class="fa fa-comments"></i>
+                  <span id="comment-cnt">{{view_data.comment_cnt}}</span>
+                </a>
+                &nbsp;&nbsp;
+                <span  style="color:#3c763d;">
+                阅读</i><span id="pv">{{view_data.post.pv}}</span>
+                </span>
+                  {% if current_user.id == view_data.post.user_id and g.tn=="pc"%}
+                    <a style="color:#327533;" class="pull-right" href="{{url_for('post.post_edit', post_id=view_data.post._id)}}" >
+                        <i class="fa fa-edit"></i>编辑
+                    </a>
+                 {% endif %}
+              </div>
+            <div class="post-sum">
+                <div class="atbd">
+                {{view_data.post.body|safe}}
+                </div>
+            </div>
+            <!--div class="text-muted">
+               转载请带上本文链接:
+                <a href="{{view_data.post_url}}">{{view_data.post_url}}</a>
+            </div-->
+            <div class="text-muted">
+              <span class="text">
+                    <p id="post-id" hidden>{{view_data.post._id}}</p>
+                  {% if current_user.is_anonymous() %}
+                        <a href="{{url_for('online.login', next='post%2F'+view_data.post._id)}}">
+                            <i  class="icon-heart" style="color:#DF013A;"></i>
+                        </a>
+                  {% else %}
+                      {% if view_data.praise_status %}
+                         <i id="praise" class="fa fa-heart" style="color:#EF8484;cursor: pointer;" onclick="praise_s('{{view_data.post._id}}')"></i>
+                      {% else %}
+                        <i id="praise" class="icon-heart" style="color:#EF8484;cursor: pointer;" onclick="praise_a('{{view_data.post._id}}')"></i>
+                      {% endif %}
+                  {% endif %}
+
+                  <span id="praise-cnt" >{{view_data.post.praise}}</span>
+                &nbsp;&nbsp;
+                  <i class="fa fa-tag"></i>
+                {% for tag in view_data.post.tag %}
+                  <a href="{{url_for('post.post_type',tag=tag)}}" style="color:#1ab667;">
+                      {{tag}}</a>&nbsp;
+                {% endfor %}
+              </span>
+              <span class="text pull-right">
+                    <a rel="nofollow" style="color:#788188;" target="_blank" rel="nofollow" href="{{url_for('post.sys_agr_show', t='版权与投诉', type='协议政策')}}">
+                        <i class="fa fa-flag-o"></i> 举报
+                    </a>
+                    <a rel="nofollow" style="color:#788188;" title="转载请先获得作者授权,并带上本文链接">©著作权归作者所有</a>
+              </span>
+
+            </div>
+
+              {% include "base/baidu_sha.html" %}
+            {%if (view_data.profile.pay.alipay.status==1 and view_data.profile.pay.alipay.use) or (view_data.profile.pay.wechatpay.status==1 and view_data.profile.pay.wechatpay.use)%}
+              {% include "post/base/pay.html" %}
+              <div class="bd-reward-stl" style="text-align:center;padding:10px;">
+                  <h5 style="text-align:center;padding:10px;">打赏下作者吧！</h5>
+                  <a  rel="nofollow" onclick="topay()" class="btn btn-rounded btn-lg btn-icon btn-warning" style="color:#111A02;font-family:'微软雅黑';font-size:18px">
+                      赏
+                  </a>
+              </div>
+
+              <style type="text/css">
+                    .pay {
+                        display:none;
+                        position:relative;
+                        width: 210px;
+                        height: 230px;
+                        margin:0 auto;
+                        top: 50px;
+                        bottom:0px;
+                        z-index:60001;
+                        border: 1px solid #19B464;
+                        BACKGROUND-COLOR: #FFF;
+                    }
+               </style>
+
+            {%endif%}
+          </div>
+    <!-- //pc-->
+
+
+      </div>

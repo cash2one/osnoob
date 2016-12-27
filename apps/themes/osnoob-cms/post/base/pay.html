@@ -1,0 +1,32 @@
+<div id="pay" class="pay" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <span onclick="close_pay()" style="cursor:pointer;color:#1ab667;">&nbsp;
+        <i class="fa  fa-times"></i>
+    </span >
+    <h5 style="text-align:center;padding:10px;">
+        选择:
+        {% if view_data.profile.pay.alipay and view_data.profile.pay.alipay.status==1 and view_data.profile.pay.alipay.use%}
+            <span id="ali" onclick="show_alipay()" style="cursor:pointer;color:#EA6000;">
+                <i id="ali-i" class="fa fa-check-square-o"></i>
+                支付宝&nbsp;
+            </span >
+        {% endif %}
+        {% if view_data.profile.pay.wechatpay and view_data.profile.pay.wechatpay.status==1 and view_data.profile.pay.wechatpay.use%}
+            <span id="wechat" onclick="show_wechatpay()" style="cursor:pointer;color:#1ab667;">
+                <i id="wechat-i"  class="fa fa-square-o"></i>
+                微信支付
+            </span >
+        {% endif %}
+    </h5>
+    <div class="modal-body" style="text-align:center;padding:10px;">
+        {% if view_data.profile.pay.alipay and view_data.profile.pay.alipay.status==1 and view_data.profile.pay.alipay.use %}
+            <img alt="打赏" id="ali-img" src="http://{{g.imghost}}/{{view_data.profile.pay.alipay.url.key}}?imageView/2/w/250/h/250&noob-v={{g.version}}" width="130px" height="130px">
+        {% endif %}
+        {% if view_data.profile.pay.wechatpay and view_data.profile.pay.wechatpay.status==1 and view_data.profile.pay.wechatpay.use%}
+            {% if view_data.profile.pay.alipay and view_data.profile.pay.alipay.status==1 and view_data.profile.pay.alipay.use%}
+            <img alt="打赏"　id="wechat-img" src="http://{{g.imghost}}/{{view_data.profile.pay.wechatpay.url.key}}?imageView/2/w/250/h/250&noob-v={{g.version}}" width="130px" height="130px" hidden>
+            {% elif view_data.profile.pay.wechatpay.use %}
+            <img alt="打赏"　id="wechat-img" src="http://{{g.imghost}}/{{view_data.profile.pay.wechatpay.url.key}}?imageView/2/w/250/h/250&noob-v={{g.version}}" width="130px" height="130px">
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

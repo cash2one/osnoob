@@ -1,0 +1,31 @@
+<li class="list-group-item visible-xs" style="border-width: 0px 0;">
+    <a rel="nofollow"　href="{{url_for('post.show', post_id=post._id)}}" class="pull-posts-left-sm visible-xs" target="_blank">
+        <img src="http://{{g.imghost}}/{{post.img_url.key}}{{g.post_thu}}&noob-v={{g.version}}" class="img-posts-sm" alt="文章缩略图">
+        <div style="position:absolute; left:1px; top:15px;">
+            <span class="label label-info-n">{{post.type}}</span>
+    　　</div>
+    </a>
+    <small>
+      <a href="{{url_for('people.user', id=post.user_id)}}" class="self-noobw1 a-name" target="_blank">
+          {{post.username}}
+      </a>
+   </small>
+
+   <h4>
+    <a href="{{url_for('post.show', post_id=post._id)}}" class="clear" target="_blank">
+        <strong class="block post-title">
+        {{post.title}}
+        </strong>
+    </a>
+   </h4>
+
+</li>
+<div class="visible-xs ">
+    <p ></p>
+     <small class="pull-post-small-left" >
+          阅读&nbsp;{{post.pv}}&nbsp;-&nbsp;评论&nbsp;{{post.comment_cnt}}&nbsp;-&nbsp;赞&nbsp;{{post.praise}}
+          -&nbsp;<span class="self-noobw2 " style="color:#1AB667;" value="{{post.time}}" unix-time>{{post.time}}</span>
+     </small>
+    <br />
+    <hr  />
+ </div>

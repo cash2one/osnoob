@@ -1,0 +1,26 @@
+ <!-- 新评论-->
+        <div class="ncbd">
+            <div class="ncbd-title">
+                <div class="ncbdttxt">NEW评论</div>
+                <hr>
+            </div>
+            <div class="ncbd-content" >
+                <ul>
+                    {% for c in view_data.new_comment %}
+
+                    <li class="colbd-{{loop.index}}">
+                        <span class="pull-left thumb-sm" style="padding-right:5px;">
+                            <img src="http://{{g.avahost}}/{{c.avatar_url.key}}{{g.ava_thu}}" alt="用户头像" >
+                        </span>
+                        <a href="{{url_for('post.show', post_id=c.case_id)}}#{{c._id}}" target="_blank" title="{{c.comment}}">
+                            {{c.comment}}
+                        </a><br>
+                        <small class="self-noobw2" style="color:#90BEA6" value="{{c.time}}" unix-time>{{c.time}}</small>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+         <!-- ／／新评论-->
+</html>

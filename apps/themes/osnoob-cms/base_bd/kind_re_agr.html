@@ -1,0 +1,22 @@
+<!-- 热门的-->
+  <div class="ncbd">
+    <div class="ncbd-title">
+        <div class="ncbdttxt">协议政策</div>
+        <hr>
+    </div>
+    <div class="ncbd-content" >
+        <ul>
+            {% for post in view_data.recommend %}
+
+            <li class="colbd-{{loop.index}}">
+                <a href="{{url_for('post.sys_agr_show', t=post.title, type='协议政策')}}">
+                    {{post.title}}
+                </a><br>
+                <small class="self-noobw2" style="color:#90BEA6" value="{{post.time}}" unix-time>{{post.time}}</small>
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+</div>
+  <!-- ／／热门的-->

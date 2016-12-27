@@ -1,6 +1,6 @@
 #-*-coding:utf-8-*-
 import time
-from apps import mdb_cont, mdb_sys
+from apps import mdb_cont, mdb_sys, mdb_user
 from apps.config import config, Permission, Theme
 from apps.online.process.user import post_cnt_update
 from apps.post.forms.posts import EditPost
@@ -162,7 +162,7 @@ def post_edit(post_id):
         tag_list = request.form.getlist("boolean_l")
         # 封面图片
         img_url = post_img(form.body.data, form.s_type.data)
-        if current_user.username == u"菜鸟世界":
+        if current_user.can(Permission.ECP):
             form.body.data =  sys_edit_img_log_claer(form.body.data, post_title=form.title.data.strip())
         else:
             form.body.data = edit_img_log_claer(form.body.data, post_id)

@@ -5,7 +5,7 @@ from apps.config import Permission, Theme
 from apps.adm_media.process.uploader import Uploader
 import os
 from apps import mdb_sys
-from apps.blueprint import media, online
+from apps.blueprint import media, online, base
 from apps.adm_media.forms.image import EditImgForm, ImgForm, ImgDelForm
 from apps.shared_tools.image.image_up import img_up, img_del, img_rename, qiniu_save, local_img_del
 from bson import ObjectId
@@ -151,7 +151,7 @@ def delete_img():
 
 
 # ------------------------------------------------------------------------------------------------------------------------------
-@online.route('/upload/', methods=['GET', 'POST', 'OPTIONS'])
+@base.route('/upload/', methods=['GET', 'POST', 'OPTIONS'])
 @login_required
 def upload():
 

@@ -3,6 +3,8 @@ from kombu import uuid
 from apps import mdb_user, config, mdb_cont
 from apps.blueprint import post
 from apps.comment.process.comment import p_comments
+from apps.config import Theme
+from apps.online.process.user import p_user
 from apps.post.process.post import post_tags, post_types, recommend_posts, p_posts, p_post, p_post_pv_1
 from bson import ObjectId
 from flask import render_template, request, redirect, url_for, make_response
@@ -64,7 +66,7 @@ def show(post_id):
         resp.set_cookie('noobw_ua', uuid(), config['cookie'].POST_TIMEOUT)
         return resp
 
-    return render_template('post/show/post.html',  view_data=view_data)
+    return render_template('{}/post/show/post.html'.format(Theme.THEME_NAME),  view_data=view_data)
 
 
 # *******************************************************************************************************************
@@ -112,10 +114,10 @@ def preview(post_id):
     if (current_user.id != view_data['post']['user_id'] or view_data['post']['status']==4 )and not current_user.can(Permission.AUDITOR) :
         abort(404)
 
-    view_data['profile'] = mdb_user.db.user_profile.find_one_or_404({'user_id':view_data['post']['user_id']})
-    view_data['username'] = mdb_user.db.user.find({"_id":view_data['post']['user_id']})["username"]
+    view_data['profile'] = p_user(view_data['post']['user_id'])
+    view_data['username'] = view_data['profile']["username"]
     view_data['title'] = "预览|{}-".format(view_data['post']['title'])
-    return render_template('post/show/preview.html',  view_data=view_data)
+    return render_template('{}/post/show/preview.html'.format(Theme.THEME_NAME),  view_data=view_data)
 
 # *****************************************************************************************************************
 @post.route('/post-type', methods=['GET', 'POST'])

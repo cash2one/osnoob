@@ -1,0 +1,20 @@
+<!-- 评论 -->
+    <script src="{{url_for('static', filename='js/jquery.tmpl.min.js')}}?version={{g.version}}"></script>
+        <span id="wait-review"  style="color:#800000;"></span><br>
+      <section class="comment-list block" id="comment-list">
+
+        {% for comment in view_data.comments %}
+          <div id="{{comment._id}}">
+            {% include "post/show/comment.html" %}
+          </div>
+        {% endfor %}
+      </section>
+        <!--更多 -->
+        <a rel="nofollow" id="n_page" href="{{view_data.n_page}}" hidden></a>
+        <div class="text-center">
+            <a rel="nofollow" id="more"　 class="btn btn-default" style="border-color:#1ab667;color:#1AB667;" onclick="comment_more('{{view_data.post._id}}')">
+                查看更多评论
+            </a>
+        </div>
+        <!-- ／／更多-->
+      <!-- //评论 -->

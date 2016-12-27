@@ -1,0 +1,65 @@
+<!-- post 列表-->
+<script src="{{url_for('static', filename='js/noob.js')}}?version={{g.version}}"></script>
+<script src="{{url_for('static', filename='js/jquery.tmpl.min.js')}}?version={{g.version}}"></script>
+
+<script id="PostTemp" type="text/x-jquery-tmpl">
+    {% if g.tn=="pc" %}
+            <li class="list-group-item">
+                <a rel="nofollow" href="/post/${_id}" class="pull-posts-left" target="_blank">
+                    <img src="http://{{g.imghost}}/${img_url.key}{{g.post_thu}}&noob-v={{g.version}}" class="img-posts" alt="文章缩略图">
+                    <div style="position:absolute; left:1px; top:15px;">
+                        <span class="label label-info-n" style="background:#6699EF;color:#FCFCFC;float:left;">${type}</span>
+                　　</div>
+                </a>
+                    <small>
+                  <a href="/people/${user_id}" class= "self-noobw1 a-name" target="_blank">
+                      ${username}
+                  </a>
+               </small>
+                    -<small class="self-noobw2" value="${time}" unix-time>${time}</small>
+               <h4>
+                <a href="/post/${_id}" class="clear" target="_blank">
+                    <strong class="block post-title">
+                    ${title}
+                    </strong>
+                </a>
+               </h4>
+
+                <small>
+                    阅读&nbsp;${pv}&nbsp;-&nbsp;评论&nbsp;${comment_cnt}&nbsp;-&nbsp;赞&nbsp;${praise}
+                </small>
+                <br>
+                </li>
+        {% else %}
+
+            <li class="list-group-item" style="border-width: 0px 0;">
+                <a rel="nofollow" href="/post/${_id}" class="pull-posts-left-sm" target="_blank">
+                    <img src="http://{{g.imghost}}/${img_url.key}{{g.post_thu}}&noob-v={{g.version}}" class="img-posts-sm" alt="文章缩略图">
+                    <div style="position:absolute; left:1px; top:15px;">
+                        <span class="label label-info-n" style="background:#6699EF;color:#FCFCFC;float:left;">${type}</span>
+                　　</div>
+                </a>
+                <small>
+                  <a href="/people/${user_id}" class= "self-noobw1 a-name" target="_blank">
+                      ${username}
+                  </a>
+               </small>
+
+               <h4>
+                <a href="/post/${_id}" class="clear" target="_blank">
+                    <strong class="block post-title">
+                    ${title}
+                    </strong>
+                </a>
+               </h4>
+
+            </li>
+             <p></p>
+             <small class="pull-post-small-left" >
+                  阅读&nbsp;${pv}&nbsp;-&nbsp;评论&nbsp;${comment_cnt}&nbsp;-&nbsp;赞&nbsp;${praise}
+                  -&nbsp;<span class="self-noobw2 " style="color:#1AB667;" value="${time}" unix-time>${time}</span>
+             </small>
+             <br />
+            <hr/>
+    {% endif %}
+</script>

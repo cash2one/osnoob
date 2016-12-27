@@ -1,0 +1,48 @@
+<!-- post 列表-->
+    {% include "post/base/post_list_script.html" %}
+       <div class="tab-content">
+            <!-- post类型导航-->
+            <div class="group-show">
+                 <p id= "{{view_data.type}}" class="get-posts" hidden></p>
+                 {% if view_data.type %}
+                 <span style="color:#1ab667;" >[类型条件]&nbsp;&nbsp;
+                     {{view_data.type}}
+                     <span class="musicbar inline m-l-sm" style="width:20px;height:20px">
+                        <span class="bar1 a1 bg-primary lter"></span>
+                        <span class="bar2 a2 bg-info lt"></span>
+                        <span class="bar3 a3 bg-success"></span>
+                        <span class="bar4 a4 bg-warning dk"></span>
+                        <span class="bar5 a5 bg-danger dker"></span>
+                      </span>
+                 </span>
+                 <p id= "type" class="post-type" hidden></p>
+                 {% else %}
+                 <span style="color:#1ab667;" >[标签条件]&nbsp;&nbsp;
+                     {{view_data.tag}}
+                     <span class="musicbar inline m-l-sm" style="width:20px;height:20px">
+                        <span class="bar1 a1 bg-primary lter"></span>
+                        <span class="bar2 a2 bg-info lt"></span>
+                        <span class="bar3 a3 bg-success"></span>
+                        <span class="bar4 a4 bg-warning dk"></span>
+                        <span class="bar5 a5 bg-danger dker"></span>
+                      </span>
+                 </span>
+                 <p id= "tag" class="post-type" hidden></p>
+                 {% endif %}
+            </div>
+            <!-- //post类型导航-->
+           <!--<div class="group-show">-->
+            <!--<img src="http://{{g.imghost}}/adv-posttype-top.png" class="img-show-cross" alt="推广">-->
+
+           <!--</div>-->
+
+       {% include "post/base/post_list_sha.html" %}
+        <span id="n_page" href="{{view_data.n_page}}" hidden></span>
+        <div class="text-center">
+            <a rel="nofollow" id="more" class="btn btn-default" style="border-color:#1ab667;color:#1AB667;" onclick="post_type_more()">
+                点击查看更多
+            </a>
+        </div>
+       </div>
+    </aside>
+    <!-- ／／post 列表-->

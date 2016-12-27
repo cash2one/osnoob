@@ -1,0 +1,17 @@
+<!-- 文章标签-->
+{% if view_data.post_tags %}
+  <div class="atbd">
+    <div class="atbd-title">
+        <div class="atbdttxt">标签</div>
+        <hr>
+    </div>
+    <div class="tags m-b-lg l-h-2x" style="padding-top:15px;">
+      {% for tag in view_data.post_tags %}
+        <a href="{{url_for('post.post_type',tag=tag)}}" class="label-tag  tag-h">
+          <label class="label label-tag-n tag-colbd-{{loop.index}}">{{tag}}</label>
+        </a>
+      {% endfor %}
+  </div>
+</div>
+{% endif%}
+  <!-- ／／标签-->

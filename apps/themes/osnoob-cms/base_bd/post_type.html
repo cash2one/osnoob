@@ -1,0 +1,16 @@
+<!--分类列表 -->
+<div class="atbd">
+    <div class="atbd-title">
+        <div class="atbdttxt">ZAI看看</div>
+        <hr>
+    </div>
+    <div class="atbd-content" >
+        {% for type in view_data.post_types %}
+
+            <a href="{{url_for('post.post_type',type=type.name)}}" class="label-tag tag-colbd-4 tag-h">
+                <label class="label label-g-n">{{type.name}}</label>
+            </a>
+         {% endfor %}
+    </div>
+</div>
+  <!-- //分类-->

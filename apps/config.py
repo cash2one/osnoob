@@ -100,7 +100,7 @@ class Paging(Config):
 class Theme(Config):
 
     THEME_NAME = "osnoob-cms"
-    ADM_THEME_NAME = "admin-pages"
+    ADM_THEME_NAME = "admin-folder"
 
 class Upload(Config):
 

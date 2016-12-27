@@ -1,0 +1,15 @@
+<ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border" >
+        <div id="post-list">
+
+            {% if g.tn == "pc" %}
+                {%  for post in view_data.posts %}
+                    {% include "post/base/post_list_temp_pc.html" %}
+                {% endfor %}
+            {% else %}
+                {%  for post in view_data.posts %}
+                    {% include "post/base/post_list_temp_m.html" %}
+                {% endfor %}
+            {% endif %}
+
+        </div>
+</ul>

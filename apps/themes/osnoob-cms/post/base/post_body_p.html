@@ -1,0 +1,44 @@
+<div class="blog-post">
+    <div class="caption wrapper-lg">
+      <span class="post-title">
+        <div class="item">
+        <a href="#" style="color:#1ab667;" class="pull-right">
+            {{view_data.post.type}}&nbsp;<span style="color:#800000;">[预览]</span>
+        </a>
+
+        <h3 class="post-title">{{view_data.post.title}}</h3>
+        </div>
+      </span>
+        <div class="text-muted">
+          <a href="{{url_for('people.user', id=view_data.post.user_id)}}" class="m-r-sm a-name">
+               <i class="fa fa-user icon-muted"></i>&nbsp;{{view_data.username}}
+          </a>
+          <i class="fa fa-clock-o icon-muted"></i>
+              <span value="{{view_data.post.time}}" unix-time>{{view_data.post.time}}</span>
+
+          <a title="评论" href="#comment-top" class="m-l-sm">
+            <i class="fa fa-comments"></i>
+            0
+          </a>
+          &nbsp;&nbsp;
+          <span style="color:#3c763d;">
+          阅读</i>0
+          </span>
+          <a style="color:#327533;" class="pull-right" href="{{url_for('post.post_edit', post_id=view_data.post._id)}}" >
+                 <i class="fa fa-edit"></i>编辑
+          </a>
+        </div>
+      <div class="post-sum">
+          {{view_data.post.body|safe}}
+      </div>
+      <div class="text-muted">
+        <span class="text">
+          <i class="fa fa-tag"></i>
+          {% for tag in view_data.post.tag %}
+            <a href="{{url_for('post.post_type',tag=tag)}}" style="color:#1ab667;">{{tag}}</a>&nbsp;
+          {% endfor %}
+
+        </span>
+      </div>
+    </div>
+  </div>

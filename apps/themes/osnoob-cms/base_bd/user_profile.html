@@ -1,0 +1,26 @@
+{% if g.tn == "pc" %}
+<!-- 用户信息-->
+    <div class="text-center m-b m-t hidden-xs hidden-sm">
+      <a rel="nofollow" href="{{url_for('people.user', id=view_data.profile.user_id)}}" class="thumb-lg">
+        <img src="http://{{g.avahost}}/{{view_data.profile.avatar_url.key}}{{g.ava_thu}}" class="img-circle" alt="用户头像">
+      </a>
+      <div>
+        <div class="h5 m-t-xs m-b-xs">
+            <a rel="nofollow" href="{{url_for('people.user', id=view_data.profile.user_id)}}">
+                <span style="font-family:'微软雅黑';">
+                {% if view_data.profile.sex == 1 %}
+                    <i class="icon-symbol-female" style="color:#FF69B4;"></i>
+                {% else %}
+                    <i class="icon-symbol-male" style="color:#87CEEB;"></i>
+                {% endif %}
+                    <span class="a-name">{{view_data.profile.username}}</span>
+                </span>
+             </a>
+            </div>
+        </div>
+        <small class="text-muted">共&nbsp;{{view_data.profile.post_cnt}}&nbsp;篇</small>
+      </div>
+    <div class="btn-group btn-group-justified m-b hidden-xs hidden-sm"></div>
+
+    <!-- ／／用户信息-->
+{% endif %}

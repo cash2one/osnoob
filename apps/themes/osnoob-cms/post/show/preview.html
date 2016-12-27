@@ -1,0 +1,26 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "osnoob-cms/base/base.html" %}
+{% block content %}
+    <!-- post 列表-->
+    <aside class="col-sm-8 b-l" >
+      <div class="tab-content">
+          {% include "osnoob-cms/base/flash.html" %}
+        {% include "osnoob-cms/post/base/post_body_p.html" %}
+        </div>
+    </aside>
+  <!-- 侧边栏-->
+<aside class="col-sm-4">
+<!-- 用户信息-->
+    {% include "osnoob-cms/base_bd/user_profile.html" %}
+
+<!-- ／／用户信息-->
+  </aside>
+ <!-- 代码高亮-->
+    <script type="text/javascript" src="{{url_for('static',filename='admin-folder/static/ueditor/third-party/SyntaxHighlighter/shCore.js')}}?version={{g.version}}"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='admin-folder/static/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css')}}?version={{g.version}}">
+    <script type="text/javascript">
+        SyntaxHighlighter.all();
+    </script>
+<!-- //代码高亮-->
+
+{% endblock %}

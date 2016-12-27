@@ -1,0 +1,15 @@
+<!-- 文章标签-->
+  <div class="atbd">
+    <div class="atbd-title">
+        <div class="atbdttxt">其他分类</div>
+        <hr>
+    </div>
+    <div class="tags m-b-lg l-h-2x" style="padding-top:15px;">
+      {% for type in view_data.post_types %}
+        <a href="{{url_for('post.post_type',type=type.name)}}" class="label-tag tag-colbd-4 tag-h">
+          <label class="label label-g-n">{{type.name}}</label>
+        </a>
+      {% endfor %}
+  </div>
+</div>
+  <!-- ／／标签-->

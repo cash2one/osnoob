@@ -1,0 +1,67 @@
+ {% if g.tn == "pc" %}
+    <li class="list-group-item">
+        <a rel="nofollow" href="{{url_for('post.show', post_id=view_data.inform._id)}}" class="pull-posts-left" target="_blank">
+            <img src="http://{{g.imghost}}/{{view_data.inform.img_url.key}}{{g.post_thu}}&noob-v={{g.version}}" class="img-posts" alt="文章缩略图">
+            <div style="position:absolute; left:1px; top:15px;">
+                <span class="label label-warning-n">
+                    {{view_data.inform.type}}
+                </span>
+        　　</div>
+        </a>
+            <small>
+          <a href="{{url_for('people.user', id=view_data.inform.user_id)}}" class="self-noobw1 a-name" target="_blank">
+              {{view_data.inform.username}}
+          </a>
+       </small>
+            -<small class="self-noobw2" value="{{view_data.inform.time}}" unix-time>{{view_data.inform.time}}</small>
+       <h4>
+        <a href="{{url_for('post.show', post_id=view_data.inform._id)}}" class="clear rrr" target="_blank">
+            <strong class="block post-title">
+            {{view_data.inform.title}}
+            </strong>
+        </a>
+       </h4>
+
+        <small>
+            阅读&nbsp;{{view_data.inform.pv}}&nbsp;-&nbsp;评论&nbsp;{{view_data.inform.comment_cnt}}&nbsp;-&nbsp;赞&nbsp;{{view_data.inform.praise}}
+        </small>
+        <br>
+    </li>
+ {% else %}
+
+
+ <li class="list-group-item visible-xs" style="border-width: 0px 0;">
+    <a rel="nofollow" href="{{url_for('post.show', post_id=view_data.inform._id)}}" class="pull-posts-left-sm visible-xs" target="_blank">
+        <img src="http://{{g.imghost}}/{{view_data.inform.img_url.key}}{{g.post_thu}}&noob-v={{g.version}}" class="img-posts-sm" alt="文章缩略图">
+        <div style="position:absolute; left:1px; top:15px;">
+            <span class="label label-warning-n">
+                {{view_data.inform.type}}
+            </span>
+    　　</div>
+    </a>
+    <small>
+      <a href="{{url_for('people.user', id=view_data.inform.user_id)}}" class="self-noobw1 a-name" target="_blank">
+          {{view_data.inform.username}}
+      </a>
+   </small>
+
+   <h4>
+    <a href="{{url_for('post.show', post_id=view_data.inform._id)}}" class="clear" target="_blank">
+        <strong class="block post-title">
+        {{view_data.inform.title}}
+        </strong>
+    </a>
+   </h4>
+
+</li>
+<div class="visible-xs ">
+    <p ></p>
+     <small class="pull-post-small-left" >
+          阅读&nbsp;{{view_data.inform.pv}}&nbsp;-&nbsp;评论&nbsp;{{view_data.inform.comment_cnt}}&nbsp;-&nbsp;赞&nbsp;{{view_data.inform.praise}}
+          -&nbsp;<span class="self-noobw2 " style="color:#1AB667;" value="{{view_data.inform.time}}" unix-time>{{view_data.inform.time}}</span>
+     </small>
+    <br />
+    <hr  />
+ </div>
+
+ {% endif %}

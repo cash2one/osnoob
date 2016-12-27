@@ -2,9 +2,9 @@
 {% extends "osnoob-cms/base/base.html" %}
 {% block content %}
 
-<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='osnoob-cms/static/ueditor/ueditor.config.js') }}?version={{g.version}}"></script>
-<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='osnoob-cms/static/ueditor/ueditor.all.min.js') }}?version={{g.version}}"> </script>
-<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='osnoob-cms/static/ueditor/lang/zh-cn/zh-cn.js') }}?version={{g.version}}"></script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='admin-folder/static/ueditor/ueditor.config.js') }}?version={{g.version}}"></script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='admin-folder/static/ueditor/ueditor.all.min.js') }}?version={{g.version}}"> </script>
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='admin-folder/static/ueditor/lang/zh-cn/zh-cn.js') }}?version={{g.version}}"></script>
 <script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='osnoob-cms/static/js/noob-post.js') }}?version={{g.version}}"> </script>
 <main class="main-container">
     <div class="container">
@@ -49,8 +49,8 @@
             <div class="form-group">
                 <input id="submit" hidden>
                 {% if not view_data.edit %}
-                    {{form.issue(class="btn btn-rounded btn-sm btn-success")}}
-                    {{form.draft(class="btn btn-rounded btn-sm btn-dark")}}
+                    {{form.issue(class="btn btn-rounded btn-sm")}}
+                    {{form.draft(class="btn btn-rounded btn-sm")}}
                 {% else %}
                     {% if not view_data.post.status %}
                         {{form.issue(class="btn btn-rounded btn-sm btn-success")}}
@@ -87,13 +87,13 @@
                         <span id="flash-s" style="color:#14834B"></span>
                     </p>
                     {%  for tag in view_data.tag_s %}
-                      <label style="color:#1AB667"　id="{{tag}}" class="btn btn-sm">
-                          {{form.boolean_l(value=tag)}}<i style="color:#1AB667" class="fa fa-check text-active"></i> {{tag}}
+                      <label style="color:#1AB667"　id="{{tag}}">
+                          {{form.boolean_l(value=0)}} {{tag}}
                       </label>
                     {% endfor %}
                     {%  for tag in view_data.tag_u %}
-                      <label id="{{tag}}" style="color:#1AB667"　 class="btn btn-sm">
-                          {{form.boolean_l(value=tag)}}<i style="color:#1AB667" class="fa fa-check text-active"></i> {{tag}}
+                      <label id="{{tag}}" style="color:#1AB667">
+                          {{form.boolean_l(value=tag)}}{{tag}}
                       </label>
                     {% endfor %}
 
@@ -165,5 +165,4 @@
     {%  endif%}
 
 {% endif %}
-
 {% endblock %}
