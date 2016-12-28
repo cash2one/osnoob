@@ -1,0 +1,138 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "osnoob-cms/base/base.html" %}
+{% block content %}
+{% if g.tn == "pc" %}
+    {% include "osnoob-cms/people/post_list_script.html" %}
+{% else %}
+    {% include "osnoob-cms/people/post_list_script_mb.html" %}
+{% endif %}
+<!-- 用户信息-->
+ <div class="col-md-12" >
+{% if g.tn == "pc" %}
+      <div class="col-md-4 hidden-xs hidden-sm">
+        <div class="text-center m-b m-t">
+          <a rel="nofollow" href="#" class="thumb-lg">
+            <img src="http://{{g.avahost}}/{{view_data.profile.avatar_url.key}}{{g.ava_thu}}" class="img-circle" alt="用户头像">
+          </a>
+          <div>
+            <div class="h4 m-t-xs m-b-xs" style="font-family:'微软雅黑';font-size:17px">
+                {% if view_data.profile.sex == 1 %}
+                    <i class="icon-symbol-female" style="color:#FF69B4;"></i>
+                {% else %}
+                    <i class="icon-symbol-male" style="color:#87CEEB;"></i>
+                {% endif %}
+                <span style="color:#69B88F;">{{view_data.profile.username}}</span>
+            </div>
+            <small class="text-muted"><i class="fa fa-map-marker"></i> {{view_data.profile.addr.provinces}}{{view_data.profile.addr.city}}</small>
+
+          </div>
+
+            <small class="text-muted">共&nbsp;{{view_data.profile.post_cnt}}&nbsp;篇</small>
+        </div>
+
+        <!-- 搜索-->
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button style="height: 33px; border-color: #dbe2e7;" onclick="s_posts({{view_data.profile.user_id}})" type="button"  class="btn btn-sm bg-white btn-icon rounded" >
+                  <i class="fa fa-search"></i>
+              </button>
+            </span>
+            <input type="text" id="s_post" class="form-control input-sm no-border rounded"  style="border-color: #dbe2e7;height:33px;" placeholder="标题搜索...">
+          </div>
+          <p></p>
+        <!-- //搜索-->
+
+          {% if view_data.profile.info  %}
+          <small class="text-muted a-info">简介:</small></br></br>
+          <small>
+                {{view_data.profile.info}}
+            </small>
+          </br>
+          </br>
+          {% endif %}
+        {% include "osnoob-cms/base_bd/post_tag.html" %}
+      </div>
+
+{% endif %}
+<!-- ／／用户信息-->
+
+<!-- 用户文章-->
+<div class="col-md-8">
+        <!-- 移动-->
+         {% if g.tn == "m" %}
+          <span class="hidden-md hidden-lg">
+            </br>
+            <a  class="a-name">{{view_data.profile.username}}</a>
+            <small class="text-muted">共&nbsp;{{view_data.profile.post_cnt}}&nbsp;篇</small>
+              <p></p>
+              <!-- 搜索-->
+              <div class="input-group">
+                <span class="input-group-btn">
+                  <button style="height: 33px; border-color: #dbe2e7;" onclick="s_posts({{view_data.profile.user_id}})" type="button"  class="btn btn-sm bg-white btn-icon rounded" >
+                      <i class="fa fa-search"></i>
+                  </button>
+                </span>
+                <input style="border-color: #dbe2e7;height:33px;" type="text" id="s_post" style="height: 33px;" class="form-control input-sm no-border rounded"  placeholder="标题搜索...">
+              </div>
+              <p></p>
+            <!-- //搜索-->
+          </span>
+
+          <!-- //移动-->
+        {% endif %}
+           <!-- 导航-->
+          <div class="group-show"  id="post-l-nav">
+            <a  rel="nofollow" id="new" class="btn btn-rounded btn-sm btn-default btn-success" onclick="get_user_post('new',{{view_data.profile.user_id}})">
+                最新
+            </a>&nbsp;&nbsp;
+            <a  rel="nofollow" id="hot" class="btn btn-rounded btn-sm btn-default" onclick="get_user_post('hot', {{view_data.profile.user_id}})" >
+                最热
+            </a>&nbsp;&nbsp;
+              {% if view_data.profile.user_id == current_user.id %}
+                <a rel="nofollow" id="draft" class="btn btn-rounded btn-sm btn-default" onclick="get_user_post('draft', {{view_data.profile.user_id}})">
+                    存稿
+                </a>&nbsp;&nbsp;
+                <a  rel="nofollow" id="review" class="btn btn-rounded btn-sm btn-default" onclick="get_user_post('review',{{view_data.profile.user_id}})">
+                    审核
+                </a>&nbsp;&nbsp;
+              {% endif %}
+          </div>
+            <!-- //导航-->
+
+
+
+        <div class="tab-content">
+          {% include "osnoob-cms/base/flash.html" %}
+          <div style="text-align:center;">
+            <span id="s_flash" style="color:#1ab667;font-size:17px"></span>
+          </div>
+          {% block people %}
+              <!--content-->
+          {% endblock %}
+        <!-- 分页-->
+        {% include 'osnoob-cms/base/post-user-more.html' %}
+
+         <!--// 分页-->
+        </div>
+
+        <!-- 移动-->
+        {% if g.tn=="m" %}
+        <div class="hidden-md hidden-lg">
+            {% include "osnoob-cms/base_bd/post_tag.html" %}
+            </br>
+          {% if view_data.profile.info  %}
+            <small class="text-muted">用户简介:</small>&nbsp;&nbsp;
+          <small>
+                {{view_data.profile.info}}
+            </small>
+          </br>
+          {% endif %}
+        </div>
+        {% endif %}
+    <!-- //移动-->
+</div>
+</div>
+<script src="{{url_for('static', filename='osnoob-cms/static/js/noob.js')}}?version={{g.version}}"></script>
+<script src="{{url_for('static', filename='osnoob-cms/static/js/jquery.tmpl.min.js')}}?version={{g.version}}"></script>
+{% include "osnoob-cms/base/confirm_alert.html" %}
+{% endblock %}

@@ -97,7 +97,7 @@ def mongo_paging_post(db, q={}, pre=12, page_num=1, sort=[('time',-1)], field=No
     datas_list = []
     n = 0
     for d in datas:
-        user = mdb_user.db.user.find_one({"_id":ObjectId(['user_id'])})
+        user = mdb_user.db.user.find_one({"_id":ObjectId(d['user_id'])})
         if user:
             d['username'] = user['username']
         else:

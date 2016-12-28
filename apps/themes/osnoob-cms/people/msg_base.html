@@ -1,0 +1,68 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base/base.html" %}
+{% block content %}
+<script src="{{url_for('static', filename='js/noob.js')}}?version={{g.version}}"></script>
+<script src="{{url_for('static', filename='js/jquery.tmpl.min.js')}}?version={{g.version}}"></script>
+    <script id="MsgTemp" type="text/x-jquery-tmpl">
+        <li id="${_id}" class="list-group-item">
+           <h4>
+            <a onclick="msg_status_p('${_id}')" href="${url}" class="clear" >
+                <strong class="block" style="color:#111A02;font-family:'微软雅黑';font-size:15px">
+                ${msg}
+                </strong>
+                <p></p>
+                <span class="block" style="color:#1ab667;font-family:'微软雅黑';font-size:15px">
+                ${body} . . . .
+                </span>
+            </a>
+
+           </h4>
+         <small value="${time}" unix-time>${time}</small>&nbsp;&nbsp;
+          <span style="color:#8B0000;cursor:pointer;"  onclick="msg_status_del('${_id}')">
+              <i class="fa fa-trash-o"></i>
+          </span>
+            <!-- 用户编辑按钮 -->
+          <!-- ／／用户编辑按钮 -->
+       </li>
+    </script>
+
+<section class="hbox stretch">
+<!-- 用户信息-->
+<aside class="col-sm-4 b-1　hidden-xs hidden-sm">
+      {% include "base_bd/user_profile.html" %}
+</aside>
+<!-- ／／用户信息-->
+
+<!-- 用户消息-->
+<aside class="col-sm-10 b-1 ">
+            <br>
+            <h4 style="font-family:'微软雅黑';">消息管理</h4>
+             <!-- 导航-->
+          <div class="group-show"  id="u-msg-l-nav">
+            <a  id="unread" class="btn btn-rounded btn-sm btn-default btn-success" onclick="get_user_msg('unread',{{view_data.profile.user_id}})">
+                未读
+            </a>&nbsp;&nbsp;
+            <a  id="read" class="btn btn-rounded btn-sm btn-default" onclick="get_user_msg('read', {{view_data.profile.user_id}})">
+                已读
+            </a>
+            <a  style="background-color: #B0C2B9;border-color: #B0C2B9;" class="btn btn-rounded btn-sm btn-danger" onclick="msg_status_all()">全标记已读</a>
+          </div>
+            <!-- //导航-->
+
+    <section class="hbox-user-pl">
+
+      <div class="tab-content">
+          {% include "base/flash.html" %}
+          {% block people %}
+              <!--content-->
+          {% endblock %}
+        <!-- 分页-->
+        {% include 'base/msg-user-more.html' %}
+         <!--// 分页-->
+      </div>
+      </section>
+
+</aside>
+
+</section>
+{% endblock %}

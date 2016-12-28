@@ -1,0 +1,73 @@
+{% if view_data.profile.user_id == current_user.id %}
+    <script id="PostTemp" type="text/x-jquery-tmpl">
+       <li id="${_id}" class="list-group-item visible-xs" style="border-width: 0px 0;">
+           <a rel="nofollow" href="/post/${_id}" class="pull-posts-left-sm" target="_blank">
+                <img src="http://{{g.imghost}}/${img_url.key}{{g.post_thu}}&noob-v={{g.version}}" class="img-posts-sm" alt="文章缩略图">
+                <div style="position:absolute; left:1px; top:15px;">
+            　　　　 <span class="label label-info-n" style="background:#6699EF;color:#FCFCFC;float:left;">${type}</span>
+            　　</div>
+            </a>
+           <small class="self-noobw2" value="${time}" unix-time>${time}</small>
+           <h4>
+            <a href="/post/${_id}" class="clear" target="_blank">
+                <strong class="block post-title">
+                ${title}
+                </strong>
+            </a>
+           </h4>
+
+       </li>
+       <div class="visible-xs " id="op${_id}">
+            <p></p>
+          <small class="pull-post-small-left" >
+              阅读&nbsp;${pv}&nbsp;-&nbsp;评论&nbsp;${comment_cnt}&nbsp;-&nbsp;赞&nbsp;${praise}
+              -&nbsp;<span class="self-noobw2 " style="color:#1AB667;" value="${time}" unix-time>${time}</span>
+          </small>
+          <br/>
+            <!-- 用户编辑按钮 -->
+            <small class="pull-post-small-left" >
+              <a style="color:#327533;" href="/post/${_id}/edit" target="_blank">
+                  <i class="fa fa-edit"></i>编辑
+              </a>
+              &nbsp;&nbsp;
+              <span style="color:#8B0000;cursor:pointer;" class="pull-right" onclick="user_post_del('${_id}')">
+                <i class="fa fa-trash-o" title="删除后不可恢复">删除</i>
+              </span>
+            </small>
+            <!-- //用户编辑按钮-->
+           <br />
+           <hr class="hr-l"/>
+        </div>
+    </script>
+
+{% else %}
+
+      <script id="PostTemp" type="text/x-jquery-tmpl">
+       <li id="${_id}" class="list-group-item visible-xs" style="border-width: 0px 0;">
+           <a rel="nofollow" href="/post/${_id}" class="pull-posts-left-sm" target="_blank">
+                <img src="http://{{g.imghost}}/${img_url.key}{{g.post_thu}}&noob-v={{g.version}}" class="img-posts-sm" alt="文章缩略图">
+                <div style="position:absolute; left:1px; top:15px;">
+            　　　　 <span class="label label-info-n" style="background:#6699EF;color:#FCFCFC;float:left;">${type}</span>
+            　　</div>
+            </a>
+           <small class="self-noobw2" value="${time}" unix-time>${time}</small>
+           <h4>
+            <a href="/post/${_id}" class="clear" target="_blank">
+                <strong class="block post-title">
+                ${title}
+                </strong>
+            </a>
+           </h4>
+
+       </li>
+        <div class="visible-xs ">
+            <p></p>
+          <small class="pull-post-small-left" >
+              阅读&nbsp;${pv}&nbsp;-&nbsp;评论&nbsp;${comment_cnt}&nbsp;-&nbsp;赞&nbsp;${praise}
+              -&nbsp;<span class="self-noobw2 " style="color:#1AB667;" value="${time}" unix-time>${time}</span>
+          </small>
+           <br />
+           <hr class="hr-l"/>
+       </div>
+    </script>
+{% endif %}

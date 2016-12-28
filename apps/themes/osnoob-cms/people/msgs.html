@@ -1,0 +1,30 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "people/msg_base.html" %}
+{% block people %}
+
+　<!-- msg 列表-->
+  <ul id="msg-list" class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+      {% for msg in view_data.msgs %}
+       <li id="{{msg._id}}" class="list-group-item">
+           <h4>
+            <a onclick="msg_status_p('{{msg._id}}')" href="{{msg.url}}" class="clear" >
+                <strong class="block" style="color:#111A02;font-family:'微软雅黑';font-size:15px">
+                {{msg.msg}}
+                </strong>
+                <p></p>
+                <span class="block" style="color:#1ab667;font-family:'微软雅黑';font-size:15px">
+                {{msg.body}} . . . .
+                </span>
+            </a>
+           </h4>
+         <small value="{{msg.time}}" unix-time>{{msg.time}}</small>&nbsp;&nbsp;
+          <span href="" style="color:#8B0000;cursor:pointer;"  onclick="msg_status_del('{{msg._id}}')">
+              <i class="fa fa-trash-o"></i>
+          </span>
+            <!-- 用户编辑按钮 -->
+          <!-- ／／用户编辑按钮 -->
+       </li>
+       {% endfor %}
+  </ul>
+
+{% endblock %}

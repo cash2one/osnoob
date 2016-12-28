@@ -1,0 +1,56 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "people/base.html" %}
+{% block people %}
+
+<aside>
+
+    <section class="scrollable wrapper">
+      <div class="timeline">
+        <div class="timeline-footer"></div>
+        {% for post in view_data.posts %}
+        {% if post.v_t %}
+          <article class="timeline-item">
+            <div class="timeline-caption">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <span class="arrow left"></span>
+                  <span class="timeline-icon"><i class="fa fa-file-text time-icon bg-info"></i></span>
+                  <span class="timeline-date">
+                    {{post.time.year}}-{{post.time.month}}-{{post.time.day}}  {{post.time.hour}}:{{post.time.minute}}
+                  </span>
+                  <a href="{{url_for('post.post_type',type=post.type)}}" style="color:#1ab667;" class="pull-left">{{post.type}}</a>
+                  <h3>
+                    <a class="pull-left" href="{{url_for('post.show', post_id=post._id)}}" target="_blank">{{post.title}}</a>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </article>
+        {% else %}
+        <article class="timeline-item alt">
+            <div class="timeline-caption">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <span class="arrow right"></span>
+                  <span class="timeline-icon"><i class="fa fa-code time-icon bg-dark"></i></span>
+                  <span class="timeline-date">
+                    {{post.time.year}}-{{post.time.month}}-{{post.time.day}}  {{post.time.hour}}:{{post.time.minute}}
+                  </span>
+                  <a href="{{url_for('post.post_type',type=post.type)}}" style="color:#1ab667;" class="pull-left">{{post.type}}</a>
+                  <h3>
+                  <a class="pull-left" style="color:#111A02;font-family:'黑体';" href="{{url_for('post.show', post_id=post._id)}}" target="_blank">{{post.title}}</a>
+                  </h3>
+                    <p></p>
+                </div>
+              </div>
+            </div>
+        </article>
+        {% endif %}
+      {% endfor %}
+
+        <div class="timeline-footer"><a href="{{url_for('post.post_add')}}"><i class="fa fa-plus time-icon inline-block bg-dark"></i></a></div>
+      </div>
+    </section>
+</aside>
+
+{% endblock %}

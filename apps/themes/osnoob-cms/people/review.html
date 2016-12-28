@@ -1,0 +1,48 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "people/base.html" %}
+{% block people %}
+      <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+              {% for post in view_data.posts %}
+           <li class="list-group-item">
+               <a href="{{url_for('post.show', post_id=post._id)}}" class="pull-posts-left" target="_blank">
+                    <img src="{{url_for('static',filename=post.img_url)}}&noob-v={{g.version}}" class="img-posts">
+                    <div style="position:absolute; left:15px; top:15px;">
+                　　　　<span href="#" style="background:	#0BBC6B;color:#FCFCFC;float:left;">{{post.type}}</span>
+                　　</div>
+                </a>
+               <small class="self-noobw2">{{post.time.year}}-{{post.time.month}}-{{post.time.day}}  {{post.time.hour}}:{{post.time.minute}}</small>
+               <h4>
+                <a href="{{url_for('post.preview', post_id=post._id)}}" class="clear" target="_blank">
+                    <strong class="block" style="color:#111A02;font-family:'黑体';">
+                    {{post.title}}
+                    </strong>
+                </a>
+               </h4>
+
+               {% if post.status == 3 %}
+               <span style="color:#8B0000;">[审核未通过！]
+                   <a href="{{url_for('post.post_edit', post_id=post._id)}}" target="_blank">
+                   查看原因
+                    </a>
+               </span>
+                {% else %}
+                <span style="color:#1ab667;">[审核中...]</span>
+                {% endif %}
+               <small>阅读&nbsp;{{post.pv}}&nbsp;-&nbsp;评论&nbsp;{{post.comment_cnt}}&nbsp;-&nbsp;赞&nbsp;{{post.praise}}</small>
+                <!-- 用户编辑按钮 -->
+              {% if post.user_id == current_user.id %}
+                  <div class="comment-action m-t-sm">
+                      <a style="color:#327533;" href="{{url_for('post.post_edit', post_id=post._id)}}" target="_blank">
+                          <i class="fa fa-edit"></i>编辑
+                      </a>
+                      &nbsp;&nbsp;
+                      <a style="color:#8B0000;" href="{{url_for('post.post_del', post_id=post._id, sub=view_data.sub)}}" >
+                          <i class="fa fa-trash-o"></i>
+                      </a>
+                  </div>
+              {% endif %}
+              <!-- ／／用户编辑按钮 -->
+           </li>
+           {% endfor %}
+
+{% endblock %}
